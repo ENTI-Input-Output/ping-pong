@@ -35,3 +35,15 @@ ExportedObj/
 # Builds
 *.apk
 *.unitypackage
+
+Logs/
+
+Assets/SteamVR_Resources/
+
+Assets/StreamingAssets/
+
+Assets/SteamVR_Resources.meta
+
+Assets/StreamingAssets.meta
+
+Packages/
