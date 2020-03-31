@@ -26,13 +26,13 @@ public class BallController : MonoBehaviour
         ContactPoint cp = col.GetContact(0);
 
         //Calculate impact force
-        Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
+        //Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
 
-        Debug.Log(collisionForce);
+        //Debug.Log(collisionForce);
 
         //Calculate with Vector3.Reflect
         _rb.velocity = Vector3.Reflect(_oldVel, cp.normal);
 
-        _rb.AddForce(collisionForce, ForceMode.Impulse);
+        //_rb.AddForce(collisionForce, ForceMode.Impulse);
     }
 }
