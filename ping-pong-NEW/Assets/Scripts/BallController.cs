@@ -1,14 +1,10 @@
-﻿// Licensed under the LGPL 3.0
-// See the LICENSE file in the project root for more information.
-// Author: alexandre.via@i2cat.net
+﻿using UnityEngine;
 
-using UnityEngine;
 
 public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
     private Vector3 _oldVel;
-
 
     void Start()
     {
@@ -29,6 +25,14 @@ public class BallController : MonoBehaviour
         //Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
 
         //Debug.Log(collisionForce);
+
+        if (col.transform.name == Constants.Paddle)
+        {
+            //_oldVel *= Bounciness;
+            Vector3 paddleVel = col.rigidbody.velocity;
+            Debug.Log("Paddle velocity = " + paddleVel);
+            _oldVel += paddleVel;
+        }
 
         //Calculate with Vector3.Reflect
         _rb.velocity = Vector3.Reflect(_oldVel, cp.normal);
