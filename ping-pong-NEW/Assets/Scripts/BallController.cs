@@ -5,6 +5,7 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody _rb;
     private Vector3 _oldVel;
+    public float AdditionalImpulse = 1.5f;
 
     void Start()
     {
@@ -31,7 +32,7 @@ public class BallController : MonoBehaviour
             //_oldVel *= Bounciness;
             Vector3 paddleVel = col.rigidbody.velocity;
             Debug.Log("Paddle velocity = " + paddleVel);
-            _oldVel += paddleVel;
+            _oldVel += paddleVel * AdditionalImpulse;
         }
 
         //Calculate with Vector3.Reflect
