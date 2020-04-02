@@ -11,6 +11,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        PhotonNetwork.AutomaticallySyncScene = true;
         //CONECTAR AL SERVER
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -28,8 +29,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        GameObject currentPlayer= PhotonNetwork.Instantiate("OurPlayer", new Vector2(Random.Range(-5, 5), 0), Quaternion.identity);
-       
-        //PhotonNetwork.Instantiate("Ball", new Vector2(Random.Range(-5, 5), 0), Quaternion.identity);
+        GameObject currentPlayer= PhotonNetwork.Instantiate("NewPlayer", new Vector2(Random.Range(-5, 5), 0), Quaternion.identity);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            //PhotonNetwork.Instantiate("Ball", new Vector3(-0.557f, 0.785f, 3.104f), Quaternion.identity);
+        }
+
     }
 }

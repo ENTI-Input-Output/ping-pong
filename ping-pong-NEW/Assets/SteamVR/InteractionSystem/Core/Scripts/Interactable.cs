@@ -14,6 +14,7 @@ namespace Valve.VR.InteractionSystem
     //-------------------------------------------------------------------------
     public class Interactable : MonoBehaviour
     {
+
         [Tooltip("Activates an action set on attach and deactivates on detach")]
         public SteamVR_ActionSet activateActionSetOnAttach;
 
@@ -95,6 +96,7 @@ namespace Valve.VR.InteractionSystem
 
         private void Awake()
         {
+            
             skeletonPoser = GetComponent<SteamVR_Skeleton_Poser>();
         }
 
@@ -288,7 +290,7 @@ namespace Valve.VR.InteractionSystem
 
         protected float blendToPoseTime = 0.1f;
         protected float releasePoseBlendTime = 0.2f;
-
+        
         protected virtual void OnAttachedToHand(Hand hand)
         {
             if (activateActionSetOnAttach != null)

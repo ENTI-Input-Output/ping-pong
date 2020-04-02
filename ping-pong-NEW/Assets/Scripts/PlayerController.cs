@@ -7,11 +7,10 @@ using Valve.VR.InteractionSystem;
 public class PlayerController : MonoBehaviour
 {
     private bool triggerPulled = false;
-    private Hand LeftHand;
+    public Hand LeftHand;
     private GameObject Ball;
     private void Start()
     {
-        LeftHand = gameObject.transform.Find("LH").GetComponent<Hand>();
         Ball = GameObject.FindGameObjectWithTag("ball");
     }
     private void Update()
@@ -19,6 +18,8 @@ public class PlayerController : MonoBehaviour
         //Trigger Pull
         if (SteamVR_Actions.default_GenerateBall.GetStateDown(SteamVR_Input_Sources.LeftHand))
         {
+            Debug.Log("mismuertos");
+            Ball.GetComponent<BallController>().ChangeOwner();
             triggerPulled = true;
         }
 
@@ -28,14 +29,14 @@ public class PlayerController : MonoBehaviour
             triggerPulled = false;
         }
 
-        if (triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null)
+        if (triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null&& LeftHand)
         {
             LeftHand.AttachObject(Ball, GrabTypes.Trigger);
             LeftHand.HoverLock(Ball.GetComponent<Interactable>());
             //Ball.transform.localPosition = new Vector3(-0.0033f, -0.0216f, 0.0433f);
             //Ball.GetComponent<Rigidbody>().isKinematic = true;
         }
-        else if (!triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null)
+        else if (!triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null && LeftHand)
         {
             //Ball.GetComponent<Rigidbody>().isKinematic = false;
             LeftHand.DetachObject(Ball);
