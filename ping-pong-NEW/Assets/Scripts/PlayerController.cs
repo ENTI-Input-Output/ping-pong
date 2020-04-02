@@ -7,9 +7,13 @@ using Valve.VR.InteractionSystem;
 public class PlayerController : MonoBehaviour
 {
     private bool triggerPulled = false;
-    public Hand LeftHand;
-    public GameObject Ball;
-
+    private Hand LeftHand;
+    private GameObject Ball;
+    private void Start()
+    {
+        LeftHand = gameObject.transform.Find("LH").GetComponent<Hand>();
+        Ball = GameObject.FindGameObjectWithTag("ball");
+    }
     private void Update()
     {
         //Trigger Pull
