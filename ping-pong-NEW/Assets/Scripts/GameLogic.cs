@@ -1,44 +1,79 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+
+public enum surfaceType { side, field, floor, paddle, net };
+
 
 public class GameLogic : MonoBehaviour
 {
+    [System.Serializable]
+    struct Game
+    {
+        public int id;
+        public Vector2 score;
+        public int winnerID;
+    }
+
+    private surfaceType _lastHitSurface;
+    private surfaceType _currentHitSurface;
+    private bool _gameActive;
+    private int _currentGame;
     [SerializeField]
     private int _turnID;
-
+    [Header("Games and score")]
+    public int MaxGames;
+    public int MaxGamePoints;
+    public int AdvThreshold;
     [SerializeField]
-    private int[] _scores;
+    private List<Game> _games;
+
 
     //Start
     private void Start()
     {
         _turnID = 0;
-        _scores = new int[] { 0, 0 };
+        //_scores = new int[] { 0, 0 };
     }
 
     //Update
     private void Update()
     {
-        //TODO
+        if((_games[_currentGame].score.x >= MaxGamePoints && _games[_currentGame].score.x - _games[_currentGame].score.y >= AdvThreshold)
+            || (_games[_currentGame].score.y >= MaxGamePoints && _games[_currentGame].score.y - _games[_currentGame].score.x >= AdvThreshold))
+        {
+            //Game finished
+            //Reset ball
+            //_currentGame++;
+            //Set _games[_currentGame].winner
+        }
     }
 
     public int GetPlayerScore(int playerID)
     {
-        return _scores[playerID];
+        //TODO
+        //return _scores[playerID];
+        return 0;
     }
 
     public int[] GetGlobalScore()
     {
-        return _scores;
+        //TODO
+        //return _scores;
+        return new int[2];
     }
 
     public void UpdateScore(int playerID)
     {
-        _scores[playerID]++;
+        //TODO
+        //_scores[playerID]++;
     }
 
     public void UpdateScore(int playerID, int amount)
     {
-        _scores[playerID] += amount;
+        //TODO
+        //_scores[playerID] += amount;
     }
 
     public void ChangeTurn()
@@ -56,13 +91,16 @@ public class GameLogic : MonoBehaviour
 
     //************************************ LOGIC *********************************************
     //TODO
-    enum surfaceType { side, field, floor, paddle, net };
-    surfaceType lastHitSurface;
-    surfaceType currentHitSurface;
+
 
     private void OnBallCollision()
     {
-        switch (currentHitSurface)
+        //if ()
+        //{
+
+        //}
+
+        switch (_currentHitSurface)
         {
             case surfaceType.floor:
                 //Check lastHitSurface
@@ -97,7 +135,7 @@ public class GameLogic : MonoBehaviour
                 break;
         }
 
-        lastHitSurface = currentHitSurface;
+        _lastHitSurface = _currentHitSurface;
     }
 
 
@@ -124,4 +162,3 @@ public class GameLogic : MonoBehaviour
 
 
 }
-

@@ -1189,6 +1189,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turnID: 0
+  MaxGames: 0
+  MaxGamePoints: 0
+  AdvThreshold: 0
+  _games:
+  - id: 0
+    score: {x: 0, y: 0}
+    winnerID: 0
 --- !u!4 &1837211758
 Transform:
   m_ObjectHideFlags: 0
