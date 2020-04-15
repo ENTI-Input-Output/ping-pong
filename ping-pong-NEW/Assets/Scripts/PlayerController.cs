@@ -6,6 +6,7 @@ using Valve.VR.InteractionSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public int PlayerID = -1;
     private bool triggerPulled = false;
     public Hand LeftHand;
     private GameObject Ball;

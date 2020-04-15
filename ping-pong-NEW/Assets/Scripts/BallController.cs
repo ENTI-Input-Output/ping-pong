@@ -2,47 +2,57 @@
 using Photon.Pun;
 
 
-    public class BallController : MonoBehaviourPun
+public class BallController : MonoBehaviourPun
+{
+    private Rigidbody _rb;
+    private Vector3 _oldVel;
+    public float AdditionalImpulse = 1.5f;
+
+    void Start()
     {
-        private Rigidbody _rb;
-        private Vector3 _oldVel;
-        public float AdditionalImpulse = 1.5f;
+        _rb = GetComponent<Rigidbody>();
+    }
 
-        void Start()
+    void FixedUpdate()
+    {
+        _oldVel = _rb.velocity;
+    }
+    public void ChangeOwner()
+    {
+        photonView.RequestOwnership();
+    }
+    void OnCollisionEnter(Collision col)
+    {
+        //Get contact point
+        ContactPoint cp = col.GetContact(0);
+
+        //Calculate impact force
+        //Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
+
+        //Debug.Log(collisionForce);
+
+        if (col.transform.name == Constants.Paddle)
         {
-            _rb = GetComponent<Rigidbody>();
+
+            //_oldVel *= Bounciness;
+            Vector3 paddleVel = col.rigidbody.velocity;
+            Debug.Log("Paddle velocity = " + paddleVel);
+            _oldVel += paddleVel * AdditionalImpulse;
         }
 
-        void FixedUpdate()
+        //Calculate with Vector3.Reflect
+        _rb.velocity = Vector3.Reflect(_oldVel, cp.normal);
+
+        Surface surface = col.transform.GetComponent<Surface>();
+        if (surface != null)
         {
-            _oldVel = _rb.velocity;
+            GameLogic.Instance.OnBallCollision(surface);
         }
-        public void ChangeOwner()
+        else
         {
-            photonView.RequestOwnership();
+            Debug.Log("The ball didn't hit a controlled surface");
         }
-        void OnCollisionEnter(Collision col)
-        {
-            //Get contact point
-            ContactPoint cp = col.GetContact(0);
 
-            //Calculate impact force
-            //Vector3 collisionForce = col.impulse / Time.fixedDeltaTime;
-
-            //Debug.Log(collisionForce);
-
-            if (col.transform.name == Constants.Paddle)
-            {
-
-                //_oldVel *= Bounciness;
-                Vector3 paddleVel = col.rigidbody.velocity;
-                Debug.Log("Paddle velocity = " + paddleVel);
-                _oldVel += paddleVel * AdditionalImpulse;
-            }
-
-            //Calculate with Vector3.Reflect
-            _rb.velocity = Vector3.Reflect(_oldVel, cp.normal);
-
-            //_rb.AddForce(collisionForce, ForceMode.Impulse);
-        }
+        //_rb.AddForce(collisionForce, ForceMode.Impulse);
+    }
 }

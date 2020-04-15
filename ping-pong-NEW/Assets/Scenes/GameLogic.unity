@@ -546,6 +546,7 @@ GameObject:
   - component: {fileID: 489267214}
   - component: {fileID: 489267213}
   - component: {fileID: 489267212}
+  - component: {fileID: 489267216}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -628,6 +629,20 @@ Transform:
   m_Father: {fileID: 634251099}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &489267216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489267211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1787a9254e10feb40b9d096e161aa8ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SurfaceType: 1
+  FieldNum: 0
 --- !u!1 &618266967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1189,13 +1204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _turnID: 0
-  MaxGames: 0
-  MaxGamePoints: 0
-  AdvThreshold: 0
-  _games:
-  - id: 0
-    score: {x: 0, y: 0}
-    winnerID: 0
+  MaxGames: 5
+  MaxGamePoints: 11
+  AdvThreshold: 2
+  _games: []
 --- !u!4 &1837211758
 Transform:
   m_ObjectHideFlags: 0
