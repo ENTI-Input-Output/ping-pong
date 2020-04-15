@@ -30,14 +30,14 @@ public class PlayerController : MonoBehaviour
             triggerPulled = false;
         }
 
-        if (triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null&& LeftHand)
+        if (!Ball.GetComponent<BallController>().IsLocked && triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null&& LeftHand)
         {
             LeftHand.AttachObject(Ball, GrabTypes.Trigger);
             LeftHand.HoverLock(Ball.GetComponent<Interactable>());
             //Ball.transform.localPosition = new Vector3(-0.0033f, -0.0216f, 0.0433f);
             //Ball.GetComponent<Rigidbody>().isKinematic = true;
         }
-        else if (!triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null && LeftHand)
+        else if (!Ball.GetComponent<BallController>().IsLocked && !triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null && LeftHand)
         {
             //Ball.GetComponent<Rigidbody>().isKinematic = false;
             LeftHand.DetachObject(Ball);

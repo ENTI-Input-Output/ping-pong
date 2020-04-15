@@ -7,6 +7,7 @@ public class BallController : MonoBehaviourPun
     private Rigidbody _rb;
     private Vector3 _oldVel;
     public float AdditionalImpulse = 1.5f;
+    public bool IsLocked = false;
 
     void Start()
     {

@@ -1203,7 +1203,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f37cdecaab520c84dafb906c162df690, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _lastHitSurface: 0
+  _currentHitSurface: 0
   _turnID: 0
+  IsFirstHit: 0
+  PaddleOverField: 0000
+  PointIntermissionTime: 3
+  GameIntermissionTime: 5
+  GamesToWin: 3
   MaxGames: 5
   MaxGamePoints: 11
   AdvThreshold: 2

@@ -14,13 +14,20 @@ public class GameLogic : MonoBehaviour
     }
 
     [SerializeField]
-    private Surface _lastHitSurface;
+    private SurfaceType _lastHitSurface;
     [SerializeField]
-    private Surface _currentHitSurface;
+    private SurfaceType _currentHitSurface;
+
+    private GameObject _lastPaddle;
+
     //private bool _gameActive;
     private int _currentGame;
     [SerializeField]
     private int _turnID;
+
+    [SerializeField]
+    private bool IsFirstHit = false;
+    public bool[] PaddleOverField = new bool[] { false, false };
 
     [Header("Intermission Times")]
     public float PointIntermissionTime = 3f;
@@ -60,8 +67,14 @@ public class GameLogic : MonoBehaviour
     {
         _turnID = 0;
         _currentGame = 0;
-        _currentHitSurface = _lastHitSurface = null;
+        _currentHitSurface = _lastHitSurface = SurfaceType.None;
         _games = new List<Game>();
+
+        //Insert first game
+        Game game = new Game();
+        game.id = 0;
+        game.score = new int[] { 0, 0 };
+        _games.Add(game);
     }
 
     //Update
@@ -79,40 +92,37 @@ public class GameLogic : MonoBehaviour
 
     public int GetPlayerScore(int playerID)
     {
+        return _games[_currentGame].score[playerID];
+    }
+
+    public int[] GetGameScore()
+    {
+        return _games[_currentGame].score;
+    }
+
+    public int GetMatchScore()
+    {
         //TODO
-        //return _scores[playerID];
+        //return how many games has each player won
         return 0;
     }
 
-    public int[] GetGlobalScore()
+    public int GetCurrentGame()
     {
-        //TODO
-        //return _scores;
-        return new int[2];
+        return _currentGame;
     }
 
-    public void UpdateScore(int playerID)
-    {
-        //TODO
-        //_scores[playerID]++;
-    }
-
-    public void UpdateScore(int playerID, int amount)
-    {
-        //TODO
-        //_scores[playerID] += amount;
-    }
-
-    public void ChangeTurn()
+    private int GetOtherPlayer()
     {
         if (_turnID == 0)
-        {
-            _turnID = 1;
-        }
-        else
-        {
-            _turnID = 0;
-        }
+            return 1;
+
+        return 0;
+    }
+
+    private void ChangeTurn()
+    {
+        _turnID = GetOtherPlayer();
     }
 
     private void ResetBall()
@@ -121,72 +131,70 @@ public class GameLogic : MonoBehaviour
         //Put the ball in the field of the player in turn
     }
 
+    private void SetScore(int playerID)
+    {
+        //TODO
+        //Change score
+        //Check scores
+        //Start new point/game
+        //Set serve
+    }
+
 
     //************************************ LOGIC *********************************************
-    //TODO
-
-
     public void OnBallCollision(Surface surface)
     {
-        _currentHitSurface.SurfaceType = surface.SurfaceType;
+        _currentHitSurface = surface.SurfaceType;
 
-        switch (_currentHitSurface.SurfaceType)
+        switch (_currentHitSurface)
         {
             case SurfaceType.Floor:
                 Debug.Log("The ball hit the floor");
-                switch (_lastHitSurface.SurfaceType)
+                switch (_lastHitSurface)
                 {
                     case SurfaceType.Paddle:
-                        if (_lastHitSurface.transform.parent.GetComponent<PlayerController>().PlayerID == 0)
-                        {
-                            _games[_currentGame].score[1]++;
-                        }
-                        else
-                        {
-                            _games[_currentGame].score[0]++;
-                        }
-                        break;
-
                     case SurfaceType.Field:
                     case SurfaceType.Net:
-                        if (_turnID == 0)
-                        {
-                            _games[_currentGame].score[1]++;
-                        }
-                        else
-                        {
-                            _games[_currentGame].score[0]++;
-                        }
+                        _games[_currentGame].score[GetOtherPlayer()]++;
                         break;
 
                     default:
-                        Debug.Log("Surface case not controlled. Ball hit: " + _lastHitSurface.SurfaceType);
+                        Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
                         break;
                 }
                 ResetBall();
                 break;
 
             case SurfaceType.Field:
-                Debug.Log("The ball hit the field number " + surface.FieldNum);
-                //Check lastHitSurface
-                //Was it a field?
-                //is it owned by the player in turn?
-                //  if(true) => score++ for the other player, as it is the second time it bounces on this field
-                //  else => just wait
+                Debug.Log("The ball hit the field with number " + surface.FieldNum);
+                if (surface.FieldNum == _turnID)
+                {
+                    if (!IsFirstHit)
+                        _games[_currentGame].score[GetOtherPlayer()]++;
+                }
+                else
+                {
+                    ChangeTurn();
+                }
                 break;
 
             case SurfaceType.Net:
                 Debug.Log("The ball hit the net");
-                //just wait
                 break;
 
             case SurfaceType.Paddle:
                 Debug.Log("The ball hit a paddle");
-                //Did the ball hit my field first?
-                //  if(true) => just wait
-                //  else => Is my paddle over my field?
-                //      if(true) => score++ for the other player, as I should've waited for it to bounce
-                //      else => score++ for me, as the ball was going to hit the floor
+                if (_lastHitSurface != SurfaceType.Field)
+                {
+                    if (PaddleOverField[_turnID])
+                    {
+                        _games[_currentGame].score[GetOtherPlayer()]++;
+                    }
+                    else
+                    {
+                        _games[_currentGame].score[_turnID]++;
+                    }
+                }
                 break;
 
             default:
@@ -196,24 +204,4 @@ public class GameLogic : MonoBehaviour
 
         _lastHitSurface = _currentHitSurface;
     }
-
-
-    //enum surfaceType {side, field, floor, paddle, net}
-    //surfaceType lastHitSurface
-    //surfaceType currentHitSurface
-    //int currentTurn
-    //int scorePlayer0
-    //int scorePlayer1
-
-    //onBallCollision()
-    //{
-    //  switch(currentHitSurface)
-    //  if(hit field of current turn)
-    //  {
-    //      if(currentTurn == 0)
-    //          scorePlayer1++;
-    //      else
-    //          scorePlayer0++;
-    //  }
-    //}
 }

@@ -2,7 +2,6 @@
 
 public enum SurfaceType { Field, Floor, Paddle, Net, None };
 
-[System.Serializable]
 public class Surface : MonoBehaviour
 {
     public SurfaceType SurfaceType;
