@@ -34,5 +34,11 @@ MonoBehaviour:
   - DestroySpaceship
   - Fire
   - RespawnSpaceship
+  - UpdateScore
+  - Test
+  - Update
+  - Start
+  - UpdateScorePointP1
+  - UpdateScorePointP2
   DisableAutoOpenWizard: 1
   ShowSettings: 1
