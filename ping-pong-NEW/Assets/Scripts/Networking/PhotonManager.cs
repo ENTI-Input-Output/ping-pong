@@ -29,13 +29,14 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
+        GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient)
         {
-            GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", new Vector3(2.286f, 0, 3.367f), Quaternion.identity);
+            currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
         }
         else
         {
-            GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", new Vector3(-0.948f, 0, 3.367f), Quaternion.identity);
+            currentPlayer.transform.position = new Vector3(-0.948f, 0, 3.367f);
         }
     }
 }
