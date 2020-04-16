@@ -13,8 +13,6 @@ GameObject:
   - component: {fileID: 1956292432119811821}
   - component: {fileID: 3395232367431261394}
   - component: {fileID: 3395232367431261395}
-  - component: {fileID: 4258561924264629770}
-  - component: {fileID: 4596874317319830291}
   m_Layer: 10
   m_Name: Paddle
   m_TagString: Untagged
@@ -29,7 +27,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1956292432122073133}
-  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0.25, y: 1, z: -0.142}
   m_LocalScale: {x: 0.12, y: 0.12, z: 0.12}
   m_Children: []
@@ -117,37 +115,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4508274075034141448, guid: 0e6746c9cdde08e4996fec3b25e40fba, type: 3}
---- !u!114 &4258561924264629770
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956292432122073133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63eaa88aa5fe8a44982eb26ab1ea2a45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4596874317319830291
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956292432122073133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: 4258561924264629770}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
