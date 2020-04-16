@@ -9,10 +9,14 @@ public class PlayerController : MonoBehaviour
     private bool triggerPulled = false;
     public Hand LeftHand;
     private GameObject Ball;
+    public GameObject teleporting;
+
     private void Start()
     {
         Ball = GameObject.FindGameObjectWithTag("ball");
+        //Instantiate(teleporting, Vector3.zero, Quaternion.identity);  //Will need this if we want to let the player teleport to points and areas
     }
+
     private void Update()
     {
         //Trigger Pull

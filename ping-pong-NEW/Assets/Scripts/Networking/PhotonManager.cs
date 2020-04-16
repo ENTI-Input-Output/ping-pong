@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -29,11 +29,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        GameObject currentPlayer= PhotonNetwork.Instantiate("NewPlayer", new Vector2(Random.Range(-5, 5), 0), Quaternion.identity);
+        GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
         if (PhotonNetwork.IsMasterClient)
         {
-            //PhotonNetwork.Instantiate("Ball", new Vector3(-0.557f, 0.785f, 3.104f), Quaternion.identity);
+            currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
+            currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
         }
-
+        else
+        {
+            currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
+            currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
+        }
     }
 }
