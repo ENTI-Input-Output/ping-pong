@@ -7,7 +7,6 @@ using Photon.Realtime;
 public class ControlNetwork : MonoBehaviourPun
 {
     private Rigidbody ballRB;
-    private bool changer;
     private void Start()
     {
         ballRB = GetComponent<Rigidbody>();
@@ -15,14 +14,10 @@ public class ControlNetwork : MonoBehaviourPun
 
     private void Update()
     {
-        if (ballRB.isKinematic&& changer)
-        {
-            ballRB.gameObject.GetComponent<BallController>().ChangeOwner();
-            changer = false;
-        }
-        else if(ballRB.isKinematic==false)
-        {
-            changer = true;
-        }
+        //if (ballRB.isKinematic)
+        //{
+        //    ballRB.gameObject.GetComponent<BallController>().ChangeOwner();
+        //}
+
     }
 }
