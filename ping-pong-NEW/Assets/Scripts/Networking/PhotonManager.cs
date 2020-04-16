@@ -33,10 +33,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
+            currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
         }
         else
         {
-            currentPlayer.transform.position = new Vector3(-0.948f, 0, 3.367f);
+            currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
+            currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
         }
     }
 }
