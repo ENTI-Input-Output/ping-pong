@@ -33,18 +33,22 @@ public class GameLogic : MonoBehaviour
     private int _turnID;
 
     [SerializeField]
-    private bool IsFirstHit = true;
+    private bool _isFirstHit;
     public bool[] PaddleOverField = new bool[] { false, false };
+    private BallController _ballReference;
 
     [Header("Intermission Times")]
     public float PointIntermissionTime = 3f;
     public float GameIntermissionTime = 5f;
+    private float _pointTimer;
+    private float _gameTimer;
+    private bool _nextGame, _nextPoint;
 
     [Header("Game Configuration")]
     public int GamesToWin = 3;
     public int MaxGames = 5;
     public int MaxGamePoints = 11;
-    public int AdvThreshold = 2;
+    public int PointsDiff = 2;
     private int _matchWinner;
 
     [Header("Score")]
@@ -78,6 +82,12 @@ public class GameLogic : MonoBehaviour
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
         _games = new List<Game>();
         _matchWinner = -1;
+        _nextGame = _nextPoint = false;
+        _isFirstHit = true;
+
+        _gameTimer = _pointTimer = 0;
+
+        _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
 
         //Insert first game
         _games.Add(new Game(_currentGame));
@@ -86,14 +96,27 @@ public class GameLogic : MonoBehaviour
     //Update
     private void Update()
     {
-        //if((_games[_currentGame].score.x >= MaxGamePoints && _games[_currentGame].score.x - _games[_currentGame].score.y >= AdvThreshold)
-        //    || (_games[_currentGame].score.y >= MaxGamePoints && _games[_currentGame].score.y - _games[_currentGame].score.x >= AdvThreshold))
-        //{
-        //    //Game finished
-        //    //Reset ball
-        //    //_currentGame++;
-        //    //Set _games[_currentGame].winner
-        //}
+        if (_nextPoint)
+        {
+            _pointTimer += Time.deltaTime;
+            if (_pointTimer >= PointIntermissionTime)
+            {
+                _pointTimer = 0;
+                _nextPoint = false;
+                _ballReference.IsLocked = false;
+            }
+        }
+
+        if (_nextGame)
+        {
+            _gameTimer += Time.deltaTime;
+            if (_gameTimer >= GameIntermissionTime)
+            {
+                _gameTimer = 0;
+                _nextGame = false;
+                _ballReference.IsLocked = false;
+            }
+        }
     }
 
     public int GetPlayerScore(int playerID)
@@ -106,11 +129,18 @@ public class GameLogic : MonoBehaviour
         return _games[_currentGame].Score;
     }
 
-    public int GetMatchScore()
+    public int GetPlayerWins(int playerID)
     {
-        //TODO
-        //return how many games has each player won
-        return 0;
+        int wins = 0;
+
+        foreach (Game game in _games)
+        {
+            if (game.WinnerID == playerID)
+            {
+                wins++;
+            }
+        }
+        return wins;
     }
 
     public int GetCurrentGame()
@@ -131,29 +161,46 @@ public class GameLogic : MonoBehaviour
         _turnID = GetOtherPlayer();
     }
 
-    private void SetScore(int playerID)
+    private void EndMatch()
     {
         //TODO
+        Debug.Log("Match has ended");
+    }
+
+    private void SetScore(int playerID)
+    {
         _games[_currentGame].Score[playerID]++;
-        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= AdvThreshold)    //This game has ended
+        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
         {
-            if (_currentGame >= MaxGames)
+            _games[_currentGame].WinnerID = playerID;
+
+            int player0Wins = GetPlayerWins(0);
+            int player1Wins = GetPlayerWins(1);
+
+            if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
             {
-                //TODO
+                _matchWinner = 0;
+            }
+            else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
+            {
+                _matchWinner = 1;
             }
             else
             {
-                _games[_currentGame].WinnerID = playerID;
-
                 //Add new game
                 _games.Add(new Game(++_currentGame));
 
-                IsFirstHit = true;
+                _isFirstHit = true;
+
+                _nextGame = true;
+                _ballReference.IsLocked = true;
             }
         }
-
-        //Start new point/game
-        //Set serve
+        else
+        {
+            _nextPoint = true;
+            _ballReference.IsLocked = true;
+        }
     }
 
 
@@ -184,7 +231,7 @@ public class GameLogic : MonoBehaviour
                 Debug.Log("The ball hit the field with number " + surface.FieldNum);
                 if (surface.FieldNum == _turnID)
                 {
-                    if (!IsFirstHit)
+                    if (!_isFirstHit)
                         _games[_currentGame].Score[GetOtherPlayer()]++;
                 }
                 else
@@ -211,8 +258,8 @@ public class GameLogic : MonoBehaviour
                     }
                 }
 
-                if (IsFirstHit)
-                    IsFirstHit = false;
+                if (_isFirstHit)
+                    _isFirstHit = false;
                 break;
 
             default:
