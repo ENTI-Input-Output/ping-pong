@@ -625,6 +625,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33351d5c6007f9d42b4cf884a2d8f4ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerID: -1
   LeftHand: {fileID: 3762876524693806794}
   teleporting: {fileID: 153878, guid: 7a135b1a2cb9c8f488d4dd00c55ab283, type: 3}
 --- !u!114 &7247452289284165758

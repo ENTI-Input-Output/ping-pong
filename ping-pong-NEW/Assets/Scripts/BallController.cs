@@ -34,7 +34,7 @@ public class BallController : MonoBehaviourPun
 
         if (col.transform.name == Constants.Paddle)
         {
-            ChangeOwner();
+            //ChangeOwner();
             //_oldVel *= Bounciness;
             Vector3 paddleVel = col.rigidbody.velocity;
             Debug.Log("Paddle velocity = " + paddleVel);
