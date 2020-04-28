@@ -29,7 +29,17 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
+        GameObject currentPlayer;
+
+        if (PhotonNetwork.CurrentRoom.PlayerCount == 1)
+        {
+            currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
+        }
+        else
+        {
+            currentPlayer = PhotonNetwork.Instantiate("Ball", Vector3.zero, Quaternion.identity);
+        }
+
         if (PhotonNetwork.IsMasterClient)
         {
             currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
@@ -37,12 +47,12 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             currentPlayer.GetComponent<PlayerController>().PlayerID = 0;
             GameLogic.Instance.Players.Add(PhotonNetwork.CurrentRoom.masterClientId, new CustomPlayer(PhotonNetwork.CurrentRoom.masterClientId, 0));
         }
-        else
-        {
-            currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
-            currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
-            currentPlayer.GetComponent<PlayerController>().PlayerID = 1;
-            GameLogic.Instance.Players.Add(PhotonNetwork.LocalPlayer.ActorNumber, new CustomPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 1));
-        }
+        //else
+        //{
+        //    currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
+        //    currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
+        //    currentPlayer.GetComponent<PlayerController>().PlayerID = 1;
+        //    GameLogic.Instance.Players.Add(PhotonNetwork.LocalPlayer.ActorNumber, new CustomPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 1));
+        //}
     }
 }
