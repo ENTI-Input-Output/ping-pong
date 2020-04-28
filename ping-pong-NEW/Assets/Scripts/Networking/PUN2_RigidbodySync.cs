@@ -47,8 +47,10 @@ public class PUN2_RigidbodySync : MonoBehaviourPun, IPunObservable
         if (!photonView.IsMine && valuesReceived)
         {
             //Update Object position and Rigidbody parameters
-            transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 8);
-            transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 8);
+            //transform.position = Vector3.Lerp(transform.position, latestPos, Time.deltaTime * 8);
+            transform.position = latestPos;
+            //transform.rotation = Quaternion.Lerp(transform.rotation, latestRot, Time.deltaTime * 8);
+            transform.rotation = latestRot;
             r.velocity = velocity;
             r.angularVelocity = angularVelocity;
         }
