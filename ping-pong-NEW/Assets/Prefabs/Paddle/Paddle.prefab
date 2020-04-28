@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 263365648573105698}
   - component: {fileID: 3395232367431261394}
   - component: {fileID: 3395232367431261395}
-  - component: {fileID: 2111388226970791282}
   m_Layer: 10
   m_Name: Paddle
   m_TagString: Untagged
@@ -131,15 +130,3 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -4508274075034141448, guid: 0e6746c9cdde08e4996fec3b25e40fba, type: 3}
---- !u!114 &2111388226970791282
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1956292432122073133}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c986e2028156046ae5da4fa18dd7d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
