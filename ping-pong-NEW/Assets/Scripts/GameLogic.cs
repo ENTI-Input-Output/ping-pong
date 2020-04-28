@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class CustomPlayer
+{
+    public int PhotonUserID;
+    public int OwnID;
+
+    public CustomPlayer(int photonUserID, int ownID)
+    {
+        PhotonUserID = photonUserID;
+        OwnID = ownID;
+    }
+}
+
 
 public class GameLogic : MonoBehaviour
 {
@@ -19,6 +31,8 @@ public class GameLogic : MonoBehaviour
             WinnerID = -1;
         }
     }
+
+    public Dictionary<int, CustomPlayer> Players;
 
     [SerializeField]
     private SurfaceType _lastHitSurface;
@@ -85,9 +99,13 @@ public class GameLogic : MonoBehaviour
         _nextGame = _nextPoint = false;
         _isFirstHit = true;
 
+        //Players = new List<Player>();
+
         _gameTimer = _pointTimer = 0;
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
+
+        Players = new Dictionary<int, CustomPlayer>();
 
         //Insert first game
         _games.Add(new Game(_currentGame));

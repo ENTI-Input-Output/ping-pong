@@ -18,9 +18,9 @@ public class BallController : MonoBehaviourPun
     {
         _oldVel = _rb.velocity;
     }
-    public void ChangeOwner()
+    public void ChangeOwner(int photonID)
     {
-        photonView.RequestOwnership();
+        photonView.TransferOwnership(photonID);
     }
     void OnCollisionEnter(Collision col)
     {

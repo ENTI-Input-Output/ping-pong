@@ -34,11 +34,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
             currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
+            currentPlayer.GetComponent<PlayerController>().PlayerID = 0;
+            GameLogic.Instance.Players.Add(PhotonNetwork.CurrentRoom.masterClientId, new CustomPlayer(PhotonNetwork.CurrentRoom.masterClientId, 0));
         }
         else
         {
             currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
             currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
+            currentPlayer.GetComponent<PlayerController>().PlayerID = 1;
+            GameLogic.Instance.Players.Add(PhotonNetwork.LocalPlayer.ActorNumber, new CustomPlayer(PhotonNetwork.LocalPlayer.ActorNumber, 1));
         }
     }
 }

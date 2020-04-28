@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Valve.VR;
 using Valve.VR.InteractionSystem;
+using Photon.Pun;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviourPun
 {
     public int PlayerID = -1;
     private bool triggerPulled = false;
@@ -23,8 +24,8 @@ public class PlayerController : MonoBehaviour
         //Trigger Pull
         if (SteamVR_Actions.default_GenerateBall.GetStateDown(SteamVR_Input_Sources.LeftHand))
         {
-            Debug.Log("mismuertos");
-            Ball.GetComponent<BallController>().ChangeOwner();
+            //Ball.GetComponent<BallController>().ChangeOwner(int.Parse(PhotonNetwork.LocalPlayer.UserId));
+            Ball.GetComponent<BallController>().ChangeOwner(1001);
             triggerPulled = true;
         }
 
