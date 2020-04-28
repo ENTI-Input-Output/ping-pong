@@ -22,12 +22,16 @@ public class FieldController : MonoBehaviourPun
             GameLogic.Instance.PaddleOverField[GetComponent<Surface>().FieldNum] = true;
         }
 
-        if (other.transform.CompareTag("ball") && FieldNum == PhotonNetwork.LocalPlayer.ActorNumber)
+        if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
         {
-            Debug.Log("Master room id = " + PhotonNetwork.CurrentRoom.masterClientId);
-            Debug.Log("Local room id = " + PhotonNetwork.LocalPlayer.ActorNumber);
-            ballController.ChangeOwner(PhotonNetwork.LocalPlayer.ActorNumber);
+            if (other.transform.CompareTag("ball") && FieldNum == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                Debug.Log("Master room id = " + PhotonNetwork.CurrentRoom.masterClientId);
+                Debug.Log("Local room id = " + PhotonNetwork.LocalPlayer.ActorNumber);
+                ballController.ChangeOwner(PhotonNetwork.LocalPlayer.ActorNumber);
+            }
         }
+        
     }
 
     private void OnTriggerExit(Collider other)

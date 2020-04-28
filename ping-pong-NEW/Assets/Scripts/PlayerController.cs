@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviourPun
         if (SteamVR_Actions.default_GenerateBall.GetStateDown(SteamVR_Input_Sources.LeftHand))
         {
             //Ball.GetComponent<BallController>().ChangeOwner(int.Parse(PhotonNetwork.LocalPlayer.UserId));
-            Ball.GetComponent<BallController>().ChangeOwner(1001);
+            Ball.GetComponent<BallController>().ChangeOwner(PhotonNetwork.LocalPlayer.ActorNumber);
             triggerPulled = true;
         }
 
