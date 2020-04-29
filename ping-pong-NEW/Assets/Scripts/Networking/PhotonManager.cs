@@ -29,11 +29,10 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        GameObject currentPlayer;
+        GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
 
         if (PhotonNetwork.IsMasterClient)
         {
-            currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
             currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
             currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
             currentPlayer.GetComponent<PlayerController>().PlayerID = 0;
@@ -41,7 +40,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            currentPlayer = PhotonNetwork.Instantiate("OtherPlayer", Vector3.zero, Quaternion.identity);
+            //currentPlayer = PhotonNetwork.Instantiate("OtherPlayer", Vector3.zero, Quaternion.identity);
             currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
             currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
             currentPlayer.GetComponent<PlayerController>().PlayerID = 1;
