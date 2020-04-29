@@ -35,10 +35,24 @@ public class PlayerNetworking : MonoBehaviour
         }
 
         scriptsToIgnore = scriptsList.ToArray();
+
+        IgnoreScripts();
     }
 
     // Start is called before the first frame update
     void Start()
+    {
+        //
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //
+    }
+
+    //This code previously was inside the Start method
+    private void IgnoreScripts()
     {
         photonView = GetComponent<PhotonView>();
         if (!photonView.IsMine)
@@ -52,13 +66,5 @@ public class PlayerNetworking : MonoBehaviour
                 camera.enabled = false;
             }
         }
-
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }
