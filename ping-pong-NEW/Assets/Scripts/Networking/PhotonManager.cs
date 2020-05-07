@@ -41,7 +41,16 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
 
-            if (PhotonNetwork.IsMasterClient)
+            bool isFirstPlayer = true;
+            foreach (Player player in PhotonNetwork.PlayerListOthers)
+            {
+                if(player.NickName == "Player")
+                {
+                    isFirstPlayer = false;
+                }
+            }
+
+            if (isFirstPlayer)
             {
                 currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
                 currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
