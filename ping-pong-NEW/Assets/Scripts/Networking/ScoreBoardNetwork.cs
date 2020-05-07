@@ -38,6 +38,7 @@ public class ScoreBoardNetwork : MonoBehaviourPun
 
     void Update()
     {
+        //DEBUG
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
             PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
@@ -47,7 +48,19 @@ public class ScoreBoardNetwork : MonoBehaviourPun
             PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
         }
     }
-  
+
+    //Called from GameLogic to update local score and send it to the other player
+    public void UpdateLocalPlayerScore()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+        }
+    }
 
 
     /*

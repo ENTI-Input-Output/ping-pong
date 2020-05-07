@@ -7,6 +7,7 @@ using Photon.Pun;
 
 public class PlayerController : MonoBehaviourPun
 {
+    public int PlayerID;
     private bool triggerPulled = false;
     public Hand LeftHand;
     private GameObject Ball;

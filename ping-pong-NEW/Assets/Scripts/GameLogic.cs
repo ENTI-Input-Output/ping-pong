@@ -50,7 +50,8 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private bool _isFirstHit;
-    public bool[] PaddleOverField = new bool[] { false, false };
+    //public bool[] PaddleOverField = new bool[] { false, false };
+    public Dictionary<int, bool> PaddleOverField = new Dictionary<int, bool>();
     private BallController _ballReference;
 
     [Header("Intermission Times")]
@@ -70,6 +71,7 @@ public class GameLogic : MonoBehaviour
     [Header("Score")]
     [SerializeField]
     private List<Game> _games;
+    private ScoreBoardNetwork _scoreBoard;
 
     #region Singleton
     public static GameLogic Instance;
@@ -107,6 +109,12 @@ public class GameLogic : MonoBehaviour
 
         //Insert first game
         _games.Add(new Game(_currentGame));
+
+        _scoreBoard = GameObject.Find("ScoreBoard").GetComponent<ScoreBoardNetwork>();
+
+        //PROVISIONAL
+        PaddleOverField[1] = false;
+        PaddleOverField[2] = false;
     }
 
     //Update
@@ -164,17 +172,12 @@ public class GameLogic : MonoBehaviour
         return _currentGame;
     }
 
-    private int GetOtherPlayer()
-    {
-        if (_turnID == 0)
-            return 1;
-
-        return 0;
-    }
-
     private void ChangeTurn()
     {
-        _turnID = GetOtherPlayer();
+        if (_turnID == 2)
+            _turnID = 1;
+        else
+            _turnID = 2;
     }
 
     public void AssignTurn(int playerID)
@@ -188,41 +191,41 @@ public class GameLogic : MonoBehaviour
         Debug.Log("Match has ended");
     }
 
-    private void SetScore(int playerID)
-    {
-        _games[_currentGame].Score[playerID]++;
-        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
-        {
-            _games[_currentGame].WinnerID = playerID;
+    //private void SetScore(int playerID)
+    //{
+    //    _games[_currentGame].Score[playerID]++;
+    //    if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
+    //    {
+    //        _games[_currentGame].WinnerID = playerID;
 
-            int player0Wins = GetPlayerWins(0);
-            int player1Wins = GetPlayerWins(1);
+    //        int player0Wins = GetPlayerWins(0);
+    //        int player1Wins = GetPlayerWins(1);
 
-            if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
-            {
-                _matchWinner = 0;
-            }
-            else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
-            {
-                _matchWinner = 1;
-            }
-            else
-            {
-                //Add new game
-                _games.Add(new Game(++_currentGame));
+    //        if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
+    //        {
+    //            _matchWinner = 0;
+    //        }
+    //        else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
+    //        {
+    //            _matchWinner = 1;
+    //        }
+    //        else
+    //        {
+    //            //Add new game
+    //            _games.Add(new Game(++_currentGame));
 
-                _isFirstHit = true;
+    //            _isFirstHit = true;
 
-                _nextGame = true;
-                _ballReference.IsLocked = true;
-            }
-        }
-        else
-        {
-            _nextPoint = true;
-            _ballReference.IsLocked = true;
-        }
-    }
+    //            _nextGame = true;
+    //            _ballReference.IsLocked = true;
+    //        }
+    //    }
+    //    else
+    //    {
+    //        _nextPoint = true;
+    //        _ballReference.IsLocked = true;
+    //    }
+    //}
 
 
     //************************************ LOGIC *********************************************
@@ -237,14 +240,14 @@ public class GameLogic : MonoBehaviour
 
                 switch (_lastHitSurface)
                 {
-                    //If the ball hit a field, a paddle or the net, the point goes to the player who hasn't the turn.
+                    //If the ball hit a field, a paddle or the net, the point goes to the player who doesn't have the turn.
                     case SurfaceType.Field:
                     case SurfaceType.Paddle:
                     case SurfaceType.Net:
                         //If the local id does not match the turn id, add a point to the local player and send it to the other player
                         if (_turnID != PhotonNetwork.CurrentRoom.masterClientId)
                         {
-                            //TODO: LOCAL SCORE++
+                            _scoreBoard.UpdateLocalPlayerScore();
                         }
                         break;
 
@@ -262,13 +265,13 @@ public class GameLogic : MonoBehaviour
                 {
                     if (!_isFirstHit)
                     {
-                        //TODO: LOCAL SCORE++
+                        _scoreBoard.UpdateLocalPlayerScore();
                     }
                 }
                 else
                 {
                     //TODO: CHANGE TURN (I NEED THE OPPONENT ID => WILL WE HAVE OBSERVERS? IF NOT, MANUALLY ASSIGN TO 1 OR 2 (DEPENDING ON THE LOCAL ID))
-                    //ChangeTurn();
+                    ChangeTurn();
                 }
                 break;
 
@@ -276,43 +279,52 @@ public class GameLogic : MonoBehaviour
                 Debug.Log("The ball hit the net");
                 break;
 
-            //TODO: CHECK THIS CASE
             case SurfaceType.Paddle:
                 Debug.Log("The ball hit a paddle");
 
                 //HOW IT SHOULD BE STRUCTURED
-                //switch (_lastHitSurface)
-                //{
-                //    case SurfaceType.Paddle:
-                //        break;
-                //    case SurfaceType.Net:
-                //        break;
-
-                //    default:
-                //        Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
-                //        break;
-                //}
-
-
-
-
-
-
-
-                //PREVIOUS CODE
-                if (_lastHitSurface != SurfaceType.Field) //The ball hit: PADDLE || NET
+                switch (_lastHitSurface)
                 {
-                    if (PaddleOverField[OpponentID])  //TODO: INITIALIZE OPPONENT ID
-                    {
-                        if(_turnID != PhotonNetwork.CurrentRoom.masterClientId)
-                        _games[_currentGame].Score[_turnID]++;
-                    }
-                    else
-                    {
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
-                    }
+                    case SurfaceType.Net:
+                    case SurfaceType.Paddle:
+                        //The local player has the turn
+                        if (_turnID == PhotonNetwork.CurrentRoom.masterClientId)
+                        {
+                            //The opponent hit the ball
+                            if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID != PhotonNetwork.CurrentRoom.masterClientId)
+                            {
+                                //The opponent had the paddle over the field
+                                if (PaddleOverField[OpponentID])
+                                {
+                                    _scoreBoard.UpdateLocalPlayerScore();
+                                }
+                            }
+
+                        }
+                        else //The local doesn't have the turn
+                        {
+                            //The local player hit the ball
+                            if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.CurrentRoom.masterClientId)
+                            {
+                                //The local player didn't have the paddle over the field
+                                if (!PaddleOverField[PhotonNetwork.CurrentRoom.masterClientId])
+                                {
+                                    _scoreBoard.UpdateLocalPlayerScore();
+                                }
+                            }
+                            else
+                            {
+                                _scoreBoard.UpdateLocalPlayerScore();
+                            }
+                        }
+                        break;
+
+                    default:
+                        Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
+                        break;
                 }
 
+                //It is no more the first hit
                 if (_isFirstHit)
                     _isFirstHit = false;
                 break;
