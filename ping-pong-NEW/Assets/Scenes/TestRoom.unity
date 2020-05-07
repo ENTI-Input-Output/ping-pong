@@ -1443,9 +1443,19 @@ PrefabInstance:
       propertyPath: FieldNum
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3374929606341589374, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: FieldNum
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3760495443305022393, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
         type: 3}
       propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4188554376356753066, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: FieldNum
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5114024332612294611, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,

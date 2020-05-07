@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class CustomPlayer
 {
@@ -32,7 +33,8 @@ public class GameLogic : MonoBehaviour
         }
     }
 
-    public Dictionary<int, CustomPlayer> Players;
+    //public int LocalPlayerID;
+    public int OpponentID;
 
     [SerializeField]
     private SurfaceType _lastHitSurface;
@@ -91,7 +93,7 @@ public class GameLogic : MonoBehaviour
     //Start
     private void Start()
     {
-        _turnID = 0;
+        _turnID = -1;
         _currentGame = 1;
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
         _games = new List<Game>();
@@ -99,13 +101,9 @@ public class GameLogic : MonoBehaviour
         _nextGame = _nextPoint = false;
         _isFirstHit = true;
 
-        //Players = new List<Player>();
-
         _gameTimer = _pointTimer = 0;
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
-
-        Players = new Dictionary<int, CustomPlayer>();
 
         //Insert first game
         _games.Add(new Game(_currentGame));
@@ -179,9 +177,14 @@ public class GameLogic : MonoBehaviour
         _turnID = GetOtherPlayer();
     }
 
+    public void AssignTurn(int playerID)
+    {
+        _turnID = playerID;
+    }
+
     private void EndMatch()
     {
-        //TODO
+        //TODO: SHOW WHATEVER WE WANT AND RETURN TO MENU/PLAY AGAIN
         Debug.Log("Match has ended");
     }
 
@@ -231,12 +234,18 @@ public class GameLogic : MonoBehaviour
         {
             case SurfaceType.Floor:
                 Debug.Log("The ball hit the floor");
+
                 switch (_lastHitSurface)
                 {
-                    case SurfaceType.Paddle:
+                    //If the ball hit a field, a paddle or the net, the point goes to the player who hasn't the turn.
                     case SurfaceType.Field:
+                    case SurfaceType.Paddle:
                     case SurfaceType.Net:
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
+                        //If the local id does not match the turn id, add a point to the local player and send it to the other player
+                        if (_turnID != PhotonNetwork.CurrentRoom.masterClientId)
+                        {
+                            //TODO: LOCAL SCORE++
+                        }
                         break;
 
                     default:
@@ -247,14 +256,19 @@ public class GameLogic : MonoBehaviour
 
             case SurfaceType.Field:
                 Debug.Log("The ball hit the field with number " + surface.FieldNum);
-                if (surface.FieldNum == _turnID)
+
+                //If the ball hits the field of the player that has the turn, the point goes for the other player
+                if (surface.FieldNum == _turnID && _turnID != PhotonNetwork.CurrentRoom.masterClientId)
                 {
                     if (!_isFirstHit)
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
+                    {
+                        //TODO: LOCAL SCORE++
+                    }
                 }
                 else
                 {
-                    ChangeTurn();
+                    //TODO: CHANGE TURN (I NEED THE OPPONENT ID => WILL WE HAVE OBSERVERS? IF NOT, MANUALLY ASSIGN TO 1 OR 2 (DEPENDING ON THE LOCAL ID))
+                    //ChangeTurn();
                 }
                 break;
 
@@ -262,17 +276,40 @@ public class GameLogic : MonoBehaviour
                 Debug.Log("The ball hit the net");
                 break;
 
+            //TODO: CHECK THIS CASE
             case SurfaceType.Paddle:
                 Debug.Log("The ball hit a paddle");
-                if (_lastHitSurface != SurfaceType.Field)
+
+                //HOW IT SHOULD BE STRUCTURED
+                //switch (_lastHitSurface)
+                //{
+                //    case SurfaceType.Paddle:
+                //        break;
+                //    case SurfaceType.Net:
+                //        break;
+
+                //    default:
+                //        Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
+                //        break;
+                //}
+
+
+
+
+
+
+
+                //PREVIOUS CODE
+                if (_lastHitSurface != SurfaceType.Field) //The ball hit: PADDLE || NET
                 {
-                    if (PaddleOverField[_turnID])
+                    if (PaddleOverField[OpponentID])  //TODO: INITIALIZE OPPONENT ID
                     {
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
+                        if(_turnID != PhotonNetwork.CurrentRoom.masterClientId)
+                        _games[_currentGame].Score[_turnID]++;
                     }
                     else
                     {
-                        _games[_currentGame].Score[_turnID]++;
+                        _games[_currentGame].Score[GetOtherPlayer()]++;
                     }
                 }
 

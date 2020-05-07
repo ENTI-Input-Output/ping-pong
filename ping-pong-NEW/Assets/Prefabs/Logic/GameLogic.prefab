@@ -45,7 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _lastHitSurface: 0
   _currentHitSurface: 0
-  _turnID: 0
+  _turnID: -1
   _isFirstHit: 0
   PaddleOverField: 0000
   PointIntermissionTime: 3

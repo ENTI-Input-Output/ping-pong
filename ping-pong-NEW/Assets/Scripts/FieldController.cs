@@ -26,12 +26,9 @@ public class FieldController : MonoBehaviourPun
         {
             if (other.transform.CompareTag("ball") && FieldNum == PhotonNetwork.LocalPlayer.ActorNumber)
             {
-                Debug.Log("Master room id = " + PhotonNetwork.CurrentRoom.masterClientId);
-                Debug.Log("Local room id = " + PhotonNetwork.LocalPlayer.ActorNumber);
                 ballController.ChangeOwner(PhotonNetwork.LocalPlayer.ActorNumber);
             }
         }
-        
     }
 
     private void OnTriggerExit(Collider other)
