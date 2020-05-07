@@ -172,6 +172,7 @@ public class GameLogic : MonoBehaviour
         return _currentGame;
     }
 
+    //TODO: CHECK THIS FUNCTION => ITERATE OVER THE LIST OF PLAYERS IN THE ROOM
     private void ChangeTurn()
     {
         if (_turnID == 2)
@@ -191,41 +192,41 @@ public class GameLogic : MonoBehaviour
         Debug.Log("Match has ended");
     }
 
-    //private void SetScore(int playerID)
-    //{
-    //    _games[_currentGame].Score[playerID]++;
-    //    if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
-    //    {
-    //        _games[_currentGame].WinnerID = playerID;
+    private void SetScore(int playerID)
+    {
+        _games[_currentGame].Score[playerID]++;
+        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
+        {
+            _games[_currentGame].WinnerID = playerID;
 
-    //        int player0Wins = GetPlayerWins(0);
-    //        int player1Wins = GetPlayerWins(1);
+            int player0Wins = GetPlayerWins(0);
+            int player1Wins = GetPlayerWins(1);
 
-    //        if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
-    //        {
-    //            _matchWinner = 0;
-    //        }
-    //        else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
-    //        {
-    //            _matchWinner = 1;
-    //        }
-    //        else
-    //        {
-    //            //Add new game
-    //            _games.Add(new Game(++_currentGame));
+            if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
+            {
+                _matchWinner = 0;
+            }
+            else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
+            {
+                _matchWinner = 1;
+            }
+            else
+            {
+                //Add new game
+                _games.Add(new Game(++_currentGame));
 
-    //            _isFirstHit = true;
+                _isFirstHit = true;
 
-    //            _nextGame = true;
-    //            _ballReference.IsLocked = true;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        _nextPoint = true;
-    //        _ballReference.IsLocked = true;
-    //    }
-    //}
+                _nextGame = true;
+                _ballReference.IsLocked = true;
+            }
+        }
+        else
+        {
+            _nextPoint = true;
+            _ballReference.IsLocked = true;
+        }
+    }
 
 
     //************************************ LOGIC *********************************************

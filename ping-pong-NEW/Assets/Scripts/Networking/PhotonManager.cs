@@ -38,7 +38,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
         if (PhotonNetwork.PlayerList[PhotonNetwork.CurrentRoom.PlayerCount - 1].NickName == "Player")
         {
-
             GameObject currentPlayer = PhotonNetwork.Instantiate("NewPlayer", Vector3.zero, Quaternion.identity);
 
             bool isFirstPlayer = true;
