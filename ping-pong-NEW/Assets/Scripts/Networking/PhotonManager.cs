@@ -31,7 +31,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        if(isPlayer)
+        if (isPlayer)
             PhotonNetwork.LocalPlayer.NickName = "Player";
         else
             PhotonNetwork.LocalPlayer.NickName = "Observer";
@@ -43,7 +43,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
             bool isFirstPlayer = true;
             foreach (Player player in PhotonNetwork.PlayerListOthers)
             {
-                if(player.NickName == "Player")
+                if (player.NickName == "Player")
                 {
                     isFirstPlayer = false;
                 }
@@ -66,6 +66,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         else
         {
             //TODO: INSTANTIATE A CAMERA (OR WHATEVER)
+        }
+
+        //Check if there's another player and get its ID to set the OpponentID in GameLogic
+        foreach (Player player in PhotonNetwork.PlayerListOthers)
+        {
+            if (player.NickName == "Player")
+            {
+                GameLogic.Instance.OpponentID = player.ActorNumber;
+            }
         }
 
         //DEBUG
@@ -92,10 +101,15 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     }
 
     public void ShowNickNames()
-    { 
-        foreach(Player player in PhotonNetwork.PlayerList)
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
         {
-            Debug.Log(player.NickName);
+            Debug.Log(player.NickName + " with ID: " + player.ActorNumber);
+
+            if (player == PhotonNetwork.LocalPlayer)
+            {
+                Debug.Log("You are a " + player.NickName + " and your ID is: " + player.ActorNumber);
+            }
         }
     }
 }
