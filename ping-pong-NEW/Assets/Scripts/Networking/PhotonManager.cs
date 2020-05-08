@@ -67,19 +67,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         {
             //TODO: INSTANTIATE A CAMERA (OR WHATEVER)
         }
-
-        //Check if there's another player and get its ID to set the OpponentID in GameLogic
-        foreach (Player player in PhotonNetwork.PlayerListOthers)
-        {
-            if (player.NickName == "Player")
-            {
-                GameLogic.Instance.OpponentID = player.ActorNumber;
-            }
-        }
-
-        //DEBUG
-        Debug.Log("Actor number = " + PhotonNetwork.LocalPlayer.ActorNumber);
-        Debug.Log("Master client ID = " + PhotonNetwork.CurrentRoom.masterClientId);
     }
 
     public void OnPlayerClick()

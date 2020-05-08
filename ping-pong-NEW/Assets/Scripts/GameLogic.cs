@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class CustomPlayer
 {
@@ -33,8 +34,10 @@ public class GameLogic : MonoBehaviour
         }
     }
 
+    [Header("Players & Surfaces")]
     //public int LocalPlayerID;
     public int OpponentID;
+    private bool _lookForOponent;
 
     [SerializeField]
     private SurfaceType _lastHitSurface;
@@ -102,6 +105,7 @@ public class GameLogic : MonoBehaviour
         _matchWinner = -1;
         _nextGame = _nextPoint = false;
         _isFirstHit = true;
+        _lookForOponent = true;
 
         _gameTimer = _pointTimer = 0;
 
@@ -120,6 +124,20 @@ public class GameLogic : MonoBehaviour
     //Update
     private void Update()
     {
+        //Check if there's another player and get its ID to set the OpponentID in GameLogic
+        if (_lookForOponent)
+        {
+            foreach (Player player in PhotonNetwork.PlayerListOthers)
+            {
+                if (player.NickName == "Player")
+                {
+                    OpponentID = player.ActorNumber;
+                    _lookForOponent = false;
+                }
+            }
+        }
+
+
         if (_nextPoint)
         {
             _pointTimer += Time.deltaTime;
