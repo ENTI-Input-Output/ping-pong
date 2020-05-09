@@ -23,14 +23,17 @@ public class GameLogic : MonoBehaviour
     public class Game
     {
         public int GameID;
-        public int[] Score;
+        public Dictionary<int, int> Score;
         public int WinnerID;
 
-        public Game(int id)
+        public Game(int id, int playerId, int opponentId)
         {
             GameID = id;
-            Score = new int[] { 0, 0 };
+            Score = new Dictionary<int, int>();
             WinnerID = -1;
+
+            Score[playerId] = 0;
+            Score[opponentId] = 0;
         }
     }
 
@@ -100,25 +103,20 @@ public class GameLogic : MonoBehaviour
     {
         _turnID = -1;
         _currentGame = 1;
-        _currentHitSurface = _lastHitSurface = SurfaceType.None;
-        _games = new List<Game>();
         _matchWinner = -1;
+        _gameTimer = _pointTimer = 0;
+
         _nextGame = _nextPoint = false;
         _isFirstHit = true;
         _lookForOponent = true;
 
-        _gameTimer = _pointTimer = 0;
+        _currentHitSurface = _lastHitSurface = SurfaceType.None;
+        _games = new List<Game>();
+
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
-
-        //Insert first game
-        _games.Add(new Game(_currentGame));
-
         _scoreBoard = GameObject.Find("ScoreBoard").GetComponent<ScoreBoardNetwork>();
 
-        //PROVISIONAL
-        PaddleOverField[1] = false;
-        PaddleOverField[2] = false;
     }
 
     //Update
@@ -133,6 +131,14 @@ public class GameLogic : MonoBehaviour
                 {
                     OpponentID = player.ActorNumber;
                     _lookForOponent = false;
+
+                    //Initialize data that uses player IDs
+                    //Paddle Over Field
+                    PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
+                    PaddleOverField[OpponentID] = false;
+
+                    //Insert first game
+                    _games.Add(new Game(_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
                 }
             }
         }
@@ -166,7 +172,7 @@ public class GameLogic : MonoBehaviour
         return _games[_currentGame].Score[playerID];
     }
 
-    public int[] GetGameScore()
+    public Dictionary<int, int> GetGameScore()
     {
         return _games[_currentGame].Score;
     }
@@ -210,41 +216,42 @@ public class GameLogic : MonoBehaviour
         Debug.Log("Match has ended");
     }
 
-    //private void SetScore(int playerID)
-    //{
-    //    _games[_currentGame].Score[playerID]++;
-    //    if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
-    //    {
-    //        _games[_currentGame].WinnerID = playerID;
+    //TODO: CALL THIS FUNCTION FROM SCOREBOARD FUNCTION
+    private void SetScore(int playerID)
+    {
+        _games[_currentGame].Score[playerID]++;
+        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[OpponentID] >= PointsDiff)    //This game has ended
+        {
+            _games[_currentGame].WinnerID = playerID;
 
-    //        int player0Wins = GetPlayerWins(0);
-    //        int player1Wins = GetPlayerWins(1);
+            int localPlayer = GetPlayerWins(PhotonNetwork.LocalPlayer.ActorNumber);
+            int opponent = GetPlayerWins(OpponentID);
 
-    //        if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
-    //        {
-    //            _matchWinner = 0;
-    //        }
-    //        else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
-    //        {
-    //            _matchWinner = 1;
-    //        }
-    //        else
-    //        {
-    //            //Add new game
-    //            _games.Add(new Game(++_currentGame));
+            if (localPlayer >= Mathf.RoundToInt(MaxGames / 2))
+            {
+                _matchWinner = PhotonNetwork.LocalPlayer.ActorNumber;
+            }
+            else if (opponent >= Mathf.RoundToInt(MaxGames / 2))
+            {
+                _matchWinner = OpponentID;
+            }
+            else
+            {
+                //Add new game
+                _games.Add(new Game(++_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
 
-    //            _isFirstHit = true;
+                _isFirstHit = true;
 
-    //            _nextGame = true;
-    //            _ballReference.IsLocked = true;
-    //        }
-    //    }
-    //    else
-    //    {
-    //        _nextPoint = true;
-    //        _ballReference.IsLocked = true;
-    //    }
-    //}
+                _nextGame = true;
+                _ballReference.IsLocked = true;
+            }
+        }
+        else
+        {
+            _nextPoint = true;
+            _ballReference.IsLocked = true;
+        }
+    }
 
 
     //************************************ LOGIC *********************************************
@@ -266,6 +273,7 @@ public class GameLogic : MonoBehaviour
                         //If the local id does not match the turn id, add a point to the local player and send it to the other player
                         if (_turnID != PhotonNetwork.CurrentRoom.masterClientId)
                         {
+                            //Add score and send it to all players in room
                             _scoreBoard.UpdateLocalPlayerScore();
                         }
                         break;
@@ -284,6 +292,7 @@ public class GameLogic : MonoBehaviour
                 {
                     if (!_isFirstHit)
                     {
+                        //Add score and send it to all players in room
                         _scoreBoard.UpdateLocalPlayerScore();
                     }
                 }
@@ -315,6 +324,7 @@ public class GameLogic : MonoBehaviour
                                 //The opponent had the paddle over the field
                                 if (PaddleOverField[OpponentID])
                                 {
+                                    //Add score and send it to all players in room
                                     _scoreBoard.UpdateLocalPlayerScore();
                                 }
                             }
@@ -328,11 +338,13 @@ public class GameLogic : MonoBehaviour
                                 //The local player didn't have the paddle over the field
                                 if (!PaddleOverField[PhotonNetwork.CurrentRoom.masterClientId])
                                 {
+                                    //Add score and send it to all players in room
                                     _scoreBoard.UpdateLocalPlayerScore();
                                 }
                             }
                             else
                             {
+                                //Add score and send it to all players in room
                                 _scoreBoard.UpdateLocalPlayerScore();
                             }
                         }
