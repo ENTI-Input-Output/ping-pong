@@ -645,6 +645,7 @@ MonoBehaviour:
   cameraToIgnore:
   - {fileID: 3762876524705260422}
   - {fileID: 3762876524705339338}
+  VRBodyPrefab: {fileID: 1280659832960532416}
 --- !u!114 &196431000596887768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3303,6 +3304,12 @@ PrefabInstance:
 --- !u!4 &2854869356631805395 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7521826979414640265, guid: c8b913a519ed6474a945a42994c8e093,
+    type: 3}
+  m_PrefabInstance: {fileID: 5763601765372676954}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1280659832960532416 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6789664698706130074, guid: c8b913a519ed6474a945a42994c8e093,
     type: 3}
   m_PrefabInstance: {fileID: 5763601765372676954}
   m_PrefabAsset: {fileID: 0}

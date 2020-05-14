@@ -13,6 +13,8 @@ public class PlayerNetworking : MonoBehaviour
 
     private PhotonView photonView;
 
+    public GameObject VRBodyPrefab;
+
     //Awake
     private void Awake()
     {
@@ -37,18 +39,12 @@ public class PlayerNetworking : MonoBehaviour
         scriptsToIgnore = scriptsList.ToArray();
 
         IgnoreScripts();
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        //
+        MonoBehaviour[] reactivate = VRBodyPrefab.GetComponentsInChildren<MonoBehaviour>();
+        foreach(MonoBehaviour script in reactivate)
+        {
+            script.enabled = true;
+        }
     }
 
     //This code previously was inside the Start method
