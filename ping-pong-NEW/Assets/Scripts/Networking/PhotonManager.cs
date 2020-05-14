@@ -10,9 +10,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public Transform Player1Transform;
     public Transform Player2Transform;
 
+    //Provisional
+    public GameObject EnvCamera;
+
     // Start is called before the first frame update
     void Start()
     {
+        //COMMENTED CAUSE IT'S BEING CALLED FROM BUTTONS (METHODS BELOW)    <---------------------------
         //PhotonNetwork.AutomaticallySyncScene = true;
         ////CONECTAR AL SERVER
         //PhotonNetwork.ConnectUsingSettings();
@@ -29,6 +33,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         //TODO: ITERATE OVER ALL ROOMS CHECKING IF THERE'S THE MAX NUMBER OF "PLAYER" IN EACH
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+
     }
 
     public override void OnJoinedRoom()
@@ -78,6 +83,8 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         //CONECTAR AL SERVER
         PhotonNetwork.ConnectUsingSettings();
+
+        EnvCamera.SetActive(false);
     }
 
     public void OnObserverClick()
@@ -89,7 +96,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         PhotonNetwork.ConnectUsingSettings();
     }
 
-    public void ShowNickNames()
+    public void PrintNicknames()
     {
         foreach (Player player in PhotonNetwork.PlayerList)
         {
