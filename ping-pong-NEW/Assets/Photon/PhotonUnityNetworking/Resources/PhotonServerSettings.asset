@@ -36,5 +36,7 @@ MonoBehaviour:
   - RespawnSpaceship
   - UpdateScorePointP1
   - UpdateScorePointP2
+  - UpdateMatchP1
+  - UpdateMatchP2
   DisableAutoOpenWizard: 1
   ShowSettings: 1

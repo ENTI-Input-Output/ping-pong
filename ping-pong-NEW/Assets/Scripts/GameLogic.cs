@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class CustomPlayer
 {
@@ -21,18 +23,24 @@ public class GameLogic : MonoBehaviour
     public class Game
     {
         public int GameID;
-        public int[] Score;
+        public Dictionary<int, int> Score;
         public int WinnerID;
 
-        public Game(int id)
+        public Game(int id, int playerId, int opponentId)
         {
             GameID = id;
-            Score = new int[] { 0, 0 };
+            Score = new Dictionary<int, int>();
             WinnerID = -1;
+
+            Score[playerId] = 0;
+            Score[opponentId] = 0;
         }
     }
 
-    public Dictionary<int, CustomPlayer> Players;
+    [Header("Players & Surfaces")]
+    //public int LocalPlayerID;
+    public int OpponentID;
+    private bool _lookForOponent;
 
     [SerializeField]
     private SurfaceType _lastHitSurface;
@@ -48,7 +56,8 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private bool _isFirstHit;
-    public bool[] PaddleOverField = new bool[] { false, false };
+    //public bool[] PaddleOverField = new bool[] { false, false };
+    public Dictionary<int, bool> PaddleOverField = new Dictionary<int, bool>();
     private BallController _ballReference;
 
     [Header("Intermission Times")]
@@ -68,6 +77,7 @@ public class GameLogic : MonoBehaviour
     [Header("Score")]
     [SerializeField]
     private List<Game> _games;
+    private ScoreBoardNetwork _scoreBoard;
 
     #region Singleton
     public static GameLogic Instance;
@@ -91,29 +101,49 @@ public class GameLogic : MonoBehaviour
     //Start
     private void Start()
     {
-        _turnID = 0;
+        _turnID = -1;
         _currentGame = 1;
-        _currentHitSurface = _lastHitSurface = SurfaceType.None;
-        _games = new List<Game>();
         _matchWinner = -1;
-        _nextGame = _nextPoint = false;
-        _isFirstHit = true;
-
-        //Players = new List<Player>();
-
         _gameTimer = _pointTimer = 0;
 
+        _nextGame = _nextPoint = false;
+        _isFirstHit = true;
+        _lookForOponent = true;
+
+        _currentHitSurface = _lastHitSurface = SurfaceType.None;
+        _games = new List<Game>();
+
+
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
+        _scoreBoard = GameObject.Find("ScoreBoard").GetComponent<ScoreBoardNetwork>();
 
-        Players = new Dictionary<int, CustomPlayer>();
-
-        //Insert first game
-        _games.Add(new Game(_currentGame));
     }
 
     //Update
     private void Update()
     {
+        //Check if there's another player and get its ID to set the OpponentID in GameLogic
+        if (_lookForOponent)
+        {
+            foreach (Player player in PhotonNetwork.PlayerListOthers)
+            {
+                if (player.NickName == "Player")
+                {
+                    OpponentID = player.ActorNumber;
+                    _lookForOponent = false;
+
+                    //Initialize data that uses player IDs
+                    //Paddle Over Field
+                    PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
+                    PaddleOverField[OpponentID] = false;
+
+                    //Insert first game
+                    _games.Add(new Game(_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
+                }
+            }
+        }
+
+
         if (_nextPoint)
         {
             _pointTimer += Time.deltaTime;
@@ -142,7 +172,7 @@ public class GameLogic : MonoBehaviour
         return _games[_currentGame].Score[playerID];
     }
 
-    public int[] GetGameScore()
+    public Dictionary<int, int> GetGameScore()
     {
         return _games[_currentGame].Score;
     }
@@ -166,47 +196,49 @@ public class GameLogic : MonoBehaviour
         return _currentGame;
     }
 
-    private int GetOtherPlayer()
-    {
-        if (_turnID == 0)
-            return 1;
-
-        return 0;
-    }
-
+    //TODO: CHECK THIS FUNCTION => ITERATE OVER THE LIST OF PLAYERS IN THE ROOM
     private void ChangeTurn()
     {
-        _turnID = GetOtherPlayer();
+        if (_turnID == 2)
+            _turnID = 1;
+        else
+            _turnID = 2;
+    }
+
+    public void AssignTurn(int playerID)
+    {
+        _turnID = playerID;
     }
 
     private void EndMatch()
     {
-        //TODO
+        //TODO: SHOW WHATEVER WE WANT AND RETURN TO MENU/PLAY AGAIN
         Debug.Log("Match has ended");
     }
 
+    //TODO: CALL THIS FUNCTION FROM SCOREBOARD FUNCTION
     private void SetScore(int playerID)
     {
         _games[_currentGame].Score[playerID]++;
-        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[GetOtherPlayer()] >= PointsDiff)    //This game has ended
+        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[OpponentID] >= PointsDiff)    //This game has ended
         {
             _games[_currentGame].WinnerID = playerID;
 
-            int player0Wins = GetPlayerWins(0);
-            int player1Wins = GetPlayerWins(1);
+            int localPlayer = GetPlayerWins(PhotonNetwork.LocalPlayer.ActorNumber);
+            int opponent = GetPlayerWins(OpponentID);
 
-            if (player0Wins >= Mathf.RoundToInt(MaxGames / 2))
+            if (localPlayer >= Mathf.RoundToInt(MaxGames / 2))
             {
-                _matchWinner = 0;
+                _matchWinner = PhotonNetwork.LocalPlayer.ActorNumber;
             }
-            else if (player1Wins >= Mathf.RoundToInt(MaxGames / 2))
+            else if (opponent >= Mathf.RoundToInt(MaxGames / 2))
             {
-                _matchWinner = 1;
+                _matchWinner = OpponentID;
             }
             else
             {
                 //Add new game
-                _games.Add(new Game(++_currentGame));
+                _games.Add(new Game(++_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
 
                 _isFirstHit = true;
 
@@ -231,12 +263,19 @@ public class GameLogic : MonoBehaviour
         {
             case SurfaceType.Floor:
                 Debug.Log("The ball hit the floor");
+
                 switch (_lastHitSurface)
                 {
-                    case SurfaceType.Paddle:
+                    //If the ball hit a field, a paddle or the net, the point goes to the player who doesn't have the turn.
                     case SurfaceType.Field:
+                    case SurfaceType.Paddle:
                     case SurfaceType.Net:
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
+                        //If the local id does not match the turn id, add a point to the local player and send it to the other player
+                        if (_turnID != PhotonNetwork.CurrentRoom.masterClientId)
+                        {
+                            //Add score and send it to all players in room
+                            _scoreBoard.UpdateLocalPlayerScore();
+                        }
                         break;
 
                     default:
@@ -247,13 +286,19 @@ public class GameLogic : MonoBehaviour
 
             case SurfaceType.Field:
                 Debug.Log("The ball hit the field with number " + surface.FieldNum);
-                if (surface.FieldNum == _turnID)
+
+                //If the ball hits the field of the player that has the turn, the point goes for the other player
+                if (surface.FieldNum == _turnID && _turnID != PhotonNetwork.CurrentRoom.masterClientId)
                 {
                     if (!_isFirstHit)
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
+                    {
+                        //Add score and send it to all players in room
+                        _scoreBoard.UpdateLocalPlayerScore();
+                    }
                 }
                 else
                 {
+                    //TODO: CHANGE TURN (I NEED THE OPPONENT ID => WILL WE HAVE OBSERVERS? IF NOT, MANUALLY ASSIGN TO 1 OR 2 (DEPENDING ON THE LOCAL ID))
                     ChangeTurn();
                 }
                 break;
@@ -264,18 +309,53 @@ public class GameLogic : MonoBehaviour
 
             case SurfaceType.Paddle:
                 Debug.Log("The ball hit a paddle");
-                if (_lastHitSurface != SurfaceType.Field)
+
+                //HOW IT SHOULD BE STRUCTURED
+                switch (_lastHitSurface)
                 {
-                    if (PaddleOverField[_turnID])
-                    {
-                        _games[_currentGame].Score[GetOtherPlayer()]++;
-                    }
-                    else
-                    {
-                        _games[_currentGame].Score[_turnID]++;
-                    }
+                    case SurfaceType.Net:
+                    case SurfaceType.Paddle:
+                        //The local player has the turn
+                        if (_turnID == PhotonNetwork.CurrentRoom.masterClientId)
+                        {
+                            //The opponent hit the ball
+                            if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID != PhotonNetwork.CurrentRoom.masterClientId)
+                            {
+                                //The opponent had the paddle over the field
+                                if (PaddleOverField[OpponentID])
+                                {
+                                    //Add score and send it to all players in room
+                                    _scoreBoard.UpdateLocalPlayerScore();
+                                }
+                            }
+
+                        }
+                        else //The local doesn't have the turn
+                        {
+                            //The local player hit the ball
+                            if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.CurrentRoom.masterClientId)
+                            {
+                                //The local player didn't have the paddle over the field
+                                if (!PaddleOverField[PhotonNetwork.CurrentRoom.masterClientId])
+                                {
+                                    //Add score and send it to all players in room
+                                    _scoreBoard.UpdateLocalPlayerScore();
+                                }
+                            }
+                            else
+                            {
+                                //Add score and send it to all players in room
+                                _scoreBoard.UpdateLocalPlayerScore();
+                            }
+                        }
+                        break;
+
+                    default:
+                        Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
+                        break;
                 }
 
+                //It is no more the first hit
                 if (_isFirstHit)
                     _isFirstHit = false;
                 break;
