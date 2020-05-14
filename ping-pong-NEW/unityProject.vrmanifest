@@ -5,7 +5,7 @@
       "app_key": "application.generated.unity.pingpongtest.exe",
       "launch_type": "url",
       "url": "steam://launch/",
-      "action_manifest_path": "D:\\Usuarios\\Alex\\Escritorio\\Ping-Pong-Test\\Assets\\StreamingAssets\\SteamVR\\actions.json",
+      "action_manifest_path": "E:\\AA-ENTI\\ping-pong\\ping-pong-NEW\\Assets\\StreamingAssets\\SteamVR\\actions.json",
       "strings": {
         "en_us": {
           "name": "Ping-Pong-Test [Testing]"
