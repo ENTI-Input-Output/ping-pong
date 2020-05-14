@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SurfaceType: 0
-  FieldNum: 1
+  FieldNum: 2
 --- !u!65 &7211055486053698828
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68951e405dfce5d4581a5784c68858cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FieldNum: 2
 --- !u!1 &5754197719874694922
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,7 +831,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SurfaceType: 0
-  FieldNum: 0
+  FieldNum: 1
 --- !u!65 &3760495443305022393
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -856,6 +857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68951e405dfce5d4581a5784c68858cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FieldNum: 1
 --- !u!1 &7034607477650646861
 GameObject:
   m_ObjectHideFlags: 0

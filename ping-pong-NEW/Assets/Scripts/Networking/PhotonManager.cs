@@ -7,6 +7,8 @@ using Photon.Realtime;
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
     bool isPlayer = false;
+    public Transform Player1Transform;
+    public Transform Player2Transform;
 
     // Start is called before the first frame update
     void Start()
@@ -51,13 +53,13 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
             if (isFirstPlayer)
             {
-                currentPlayer.transform.position = new Vector3(2.286f, 0, 3.367f);
-                currentPlayer.transform.rotation = Quaternion.Euler(0, -90, 0);
+                currentPlayer.transform.position = Player1Transform.position;
+                currentPlayer.transform.rotation = Player1Transform.rotation;
             }
             else
             {
-                currentPlayer.transform.position = new Vector3(-1.2f, 0, 3.367f);
-                currentPlayer.transform.rotation = Quaternion.Euler(0, 90, 0);
+                currentPlayer.transform.position = Player2Transform.position;
+                currentPlayer.transform.rotation = Player2Transform.rotation;
             }
 
             currentPlayer.GetComponent<PlayerController>().PlayerID = PhotonNetwork.CurrentRoom.masterClientId;
