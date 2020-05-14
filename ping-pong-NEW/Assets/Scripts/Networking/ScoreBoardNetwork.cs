@@ -13,7 +13,7 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     public int MatchP1 = 0;
     public int P2 = 0;
     public int MatchP2 = 0;
-    
+
     private PhotonView PV;
 
     [PunRPC]
@@ -28,6 +28,7 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     {
         MatchP1++;
         UpdateMatchLocal();
+        //MEthod update gamelogic's score
     }
 
     [PunRPC]
@@ -42,18 +43,41 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     {
         MatchP2++;
         UpdateMatchLocal();
+        //MEthod update gamelogic's score
     }
 
+    [PunRPC]
+    void UpdateGameLogic()
+    {
+        GameLogic.Instance.SetScore();
+        P1++;
+        UpdateScoreLocal();
+    }
 
     void UpdateScoreLocal()
     {
         scoreText.text = P1.ToString() + ":" + P2.ToString();
 
+        if (PhotonNetwork.IsMasterClient)
+        {
+            GameLogic.Instance.Games[GameLogic.Instance.CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] = P1;
+            GameLogic.Instance.Games[GameLogic.Instance.CurrentGame].Score[GameLogic.Instance.OpponentID] = P2;
+        }
+        else
+        {
+            GameLogic.Instance.Games[GameLogic.Instance.CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] = P2;
+            GameLogic.Instance.Games[GameLogic.Instance.CurrentGame].Score[GameLogic.Instance.OpponentID] = P1;
+        }
+
+        GameLogic.Instance.SetScore();
     }
     void UpdateMatchLocal()
     {
         matchP1.text = MatchP1.ToString();
         matchP2.text = MatchP2.ToString();
+
+        P1 = P2 = 0;
+        scoreText.text = P1.ToString() + ":" + P2.ToString();
     }
 
     void Start()
@@ -100,15 +124,15 @@ public class ScoreBoardNetwork : MonoBehaviourPun
         }
     }
 
-        /*
-        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    /*
+    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.isWriting)
         {
-            if (stream.isWriting)
-            {
-            }
+        }
 
-            else
-            {
-            }
-        }*/
-    }
+        else
+        {
+        }
+    }*/
+}

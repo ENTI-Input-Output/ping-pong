@@ -50,7 +50,7 @@ public class GameLogic : MonoBehaviour
     private GameObject _lastPaddle;
 
     //private bool _gameActive;
-    private int _currentGame;
+    public int CurrentGame;
     [SerializeField]
     private int _turnID;
 
@@ -76,7 +76,7 @@ public class GameLogic : MonoBehaviour
 
     [Header("Score")]
     [SerializeField]
-    private List<Game> _games;
+    public List<Game> Games;
     private ScoreBoardNetwork _scoreBoard;
 
     #region Singleton
@@ -102,7 +102,7 @@ public class GameLogic : MonoBehaviour
     private void Start()
     {
         _turnID = -1;
-        _currentGame = 1;
+        CurrentGame = 1;
         _matchWinner = -1;
         _gameTimer = _pointTimer = 0;
 
@@ -111,7 +111,7 @@ public class GameLogic : MonoBehaviour
         _lookForOponent = true;
 
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
-        _games = new List<Game>();
+        Games = new List<Game>();
 
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
@@ -138,7 +138,7 @@ public class GameLogic : MonoBehaviour
                     PaddleOverField[OpponentID] = false;
 
                     //Insert first game
-                    _games.Add(new Game(_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
+                    Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
                 }
             }
         }
@@ -169,19 +169,19 @@ public class GameLogic : MonoBehaviour
 
     public int GetPlayerScore(int playerID)
     {
-        return _games[_currentGame].Score[playerID];
+        return Games[CurrentGame].Score[playerID];
     }
 
     public Dictionary<int, int> GetGameScore()
     {
-        return _games[_currentGame].Score;
+        return Games[CurrentGame].Score;
     }
 
     public int GetPlayerWins(int playerID)
     {
         int wins = 0;
 
-        foreach (Game game in _games)
+        foreach (Game game in Games)
         {
             if (game.WinnerID == playerID)
             {
@@ -193,7 +193,7 @@ public class GameLogic : MonoBehaviour
 
     public int GetCurrentGame()
     {
-        return _currentGame;
+        return CurrentGame;
     }
 
     //TODO: CHECK THIS FUNCTION => ITERATE OVER THE LIST OF PLAYERS IN THE ROOM
@@ -217,12 +217,15 @@ public class GameLogic : MonoBehaviour
     }
 
     //TODO: CALL THIS FUNCTION FROM SCOREBOARD FUNCTION
-    private void SetScore(int playerID)
+    public void SetScore()
     {
-        _games[_currentGame].Score[playerID]++;
-        if (_games[_currentGame].Score[playerID] >= MaxGamePoints && _games[_currentGame].Score[playerID] - _games[_currentGame].Score[OpponentID] >= PointsDiff)    //This game has ended
+        //Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber]++;
+        if (Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= MaxGamePoints && Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] - Games[CurrentGame].Score[OpponentID] >= PointsDiff)    //This game has ended
         {
-            _games[_currentGame].WinnerID = playerID;
+            Games[CurrentGame].WinnerID = PhotonNetwork.LocalPlayer.ActorNumber;
+
+            //UpdateLocalMatch => Scoreboard
+            _scoreBoard.UpdateLocalMatchScore();
 
             int localPlayer = GetPlayerWins(PhotonNetwork.LocalPlayer.ActorNumber);
             int opponent = GetPlayerWins(OpponentID);
@@ -238,7 +241,7 @@ public class GameLogic : MonoBehaviour
             else
             {
                 //Add new game
-                _games.Add(new Game(++_currentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
+                Games.Add(new Game(++CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
 
                 _isFirstHit = true;
 
@@ -275,6 +278,7 @@ public class GameLogic : MonoBehaviour
                         {
                             //Add score and send it to all players in room
                             _scoreBoard.UpdateLocalPlayerScore();
+                            SetScore();
                         }
                         break;
 
