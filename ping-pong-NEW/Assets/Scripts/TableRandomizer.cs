@@ -11,6 +11,7 @@ public class TableRandomizer : MonoBehaviour {
     void Start() { // Default table as first
         currentTable = 0;
         oldTable = 0;
+        UpdateTables(currentTable); // Sanity check
     }
 
     void Update() {
