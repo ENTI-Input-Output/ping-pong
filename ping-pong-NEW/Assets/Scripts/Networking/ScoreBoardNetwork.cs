@@ -7,8 +7,13 @@ using TMPro;
 public class ScoreBoardNetwork : MonoBehaviourPun
 {
     TextMeshProUGUI scoreText;
+    public TextMeshProUGUI matchP1;
+    public TextMeshProUGUI matchP2;
     public int P1 = 0;
+    public int MatchP1 = 0;
     public int P2 = 0;
+    public int MatchP2 = 0;
+    
     private PhotonView PV;
 
     [PunRPC]
@@ -19,15 +24,36 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     }
 
     [PunRPC]
+    void UpdateMatchP1()
+    {
+        MatchP1++;
+        UpdateMatchLocal();
+    }
+
+    [PunRPC]
     void UpdateScorePointP2()
     {
         P2++;
         UpdateScoreLocal();
     }
 
+    [PunRPC]
+    void UpdateMatchP2()
+    {
+        MatchP2++;
+        UpdateMatchLocal();
+    }
+
+
     void UpdateScoreLocal()
     {
         scoreText.text = P1.ToString() + ":" + P2.ToString();
+
+    }
+    void UpdateMatchLocal()
+    {
+        matchP1.text = MatchP1.ToString();
+        matchP2.text = MatchP2.ToString();
     }
 
     void Start()
@@ -62,16 +88,27 @@ public class ScoreBoardNetwork : MonoBehaviourPun
         }
     }
 
-
-    /*
-    void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    public void UpdateLocalMatchScore()
     {
-        if (stream.isWriting)
+        if (PhotonNetwork.IsMasterClient)
         {
+            PV.RPC("UpdateMatchP1", RpcTarget.AllBuffered);
         }
-
         else
         {
+            PV.RPC("UpdateMatchP2", RpcTarget.AllBuffered);
         }
-    }*/
-}
+    }
+
+        /*
+        void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+        {
+            if (stream.isWriting)
+            {
+            }
+
+            else
+            {
+            }
+        }*/
+    }

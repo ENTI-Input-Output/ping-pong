@@ -1302,6 +1302,31 @@ PrefabInstance:
       propertyPath: viewIdField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 37988733045034310, guid: 517311f96e16b644eb5312f8f997894a,
+        type: 3}
+      propertyPath: m_textInfo.characterCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37988733045034310, guid: 517311f96e16b644eb5312f8f997894a,
+        type: 3}
+      propertyPath: m_textInfo.spaceCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37988733045034310, guid: 517311f96e16b644eb5312f8f997894a,
+        type: 3}
+      propertyPath: m_textInfo.wordCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37988733045034310, guid: 517311f96e16b644eb5312f8f997894a,
+        type: 3}
+      propertyPath: m_textInfo.lineCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 37988733045034310, guid: 517311f96e16b644eb5312f8f997894a,
+        type: 3}
+      propertyPath: m_textInfo.pageCount
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3365105736131442919, guid: 517311f96e16b644eb5312f8f997894a,
         type: 3}
       propertyPath: m_LocalPosition.x
