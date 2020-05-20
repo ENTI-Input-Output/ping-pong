@@ -40,10 +40,13 @@ public class PlayerNetworking : MonoBehaviour
 
         IgnoreScripts();
 
-        MonoBehaviour[] reactivate = VRBodyPrefab.GetComponentsInChildren<MonoBehaviour>();
-        foreach(MonoBehaviour script in reactivate)
+        if (VRBodyPrefab)
         {
-            script.enabled = true;
+            MonoBehaviour[] reactivate = VRBodyPrefab.GetComponentsInChildren<MonoBehaviour>();
+            foreach (MonoBehaviour script in reactivate)
+            {
+                script.enabled = true;
+            }
         }
     }
 

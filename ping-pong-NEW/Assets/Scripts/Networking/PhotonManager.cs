@@ -6,9 +6,11 @@ using Photon.Realtime;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    bool isPlayer = false;
+    //bool isPlayer = false;
     public Transform Player1Transform;
     public Transform Player2Transform;
+
+    public Transform ObserverTransform;
 
     //Provisional
     public GameObject EnvCamera;
@@ -16,10 +18,9 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        //COMMENTED CAUSE IT'S BEING CALLED FROM BUTTONS (METHODS BELOW)    <---------------------------
-        //PhotonNetwork.AutomaticallySyncScene = true;
-        ////CONECTAR AL SERVER
-        //PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AutomaticallySyncScene = true;
+        //CONECTAR AL SERVER
+        PhotonNetwork.ConnectUsingSettings();
     }
 
     //CONECTADO AL SERVER
@@ -33,12 +34,11 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         //TODO: ITERATE OVER ALL ROOMS CHECKING IF THERE'S THE MAX NUMBER OF "PLAYER" IN EACH
         PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
-
     }
 
     public override void OnJoinedRoom()
     {
-        if (isPlayer)
+        if (DataManager.Instance.IsPlayer)
             PhotonNetwork.LocalPlayer.NickName = "Player";
         else
             PhotonNetwork.LocalPlayer.NickName = "Observer";
@@ -72,29 +72,31 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            //TODO: INSTANTIATE A CAMERA (OR WHATEVER)
+            GameObject currentPlayer = PhotonNetwork.Instantiate("Observer", Vector3.zero, Quaternion.identity);
+            currentPlayer.transform.position = ObserverTransform.position;
+            currentPlayer.transform.rotation = ObserverTransform.rotation;
         }
     }
 
-    public void OnPlayerClick()
-    {
-        isPlayer = true;
+    //public void OnPlayerClick()
+    //{
+    //    isPlayer = true;
 
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //CONECTAR AL SERVER
-        PhotonNetwork.ConnectUsingSettings();
+    //    PhotonNetwork.AutomaticallySyncScene = true;
+    //    //CONECTAR AL SERVER
+    //    PhotonNetwork.ConnectUsingSettings();
 
-        EnvCamera.SetActive(false);
-    }
+    //    EnvCamera.SetActive(false);
+    //}
 
-    public void OnObserverClick()
-    {
-        isPlayer = false;
+    //public void OnObserverClick()
+    //{
+    //    isPlayer = false;
 
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //CONECTAR AL SERVER
-        PhotonNetwork.ConnectUsingSettings();
-    }
+    //    PhotonNetwork.AutomaticallySyncScene = true;
+    //    //CONECTAR AL SERVER
+    //    PhotonNetwork.ConnectUsingSettings();
+    //}
 
     public void PrintNicknames()
     {
