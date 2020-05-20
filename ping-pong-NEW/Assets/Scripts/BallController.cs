@@ -37,7 +37,7 @@ public class BallController : MonoBehaviourPun
             //ChangeOwner();
             //_oldVel *= Bounciness;
             Vector3 paddleVel = col.rigidbody.velocity;
-            Debug.Log("Paddle velocity = " + paddleVel);
+            //Debug.Log("Paddle velocity = " + paddleVel);
             _oldVel += paddleVel * AdditionalImpulse;
         }
 

@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviourPun
     private void Update()
     {
         //Trigger Pull
-        if (SteamVR_Actions.default_GenerateBall.GetStateDown(SteamVR_Input_Sources.LeftHand))
+        if (SteamVR_Actions.default_GenerateBall.GetStateDown(SteamVR_Input_Sources.LeftHand) && GameLogic.Instance.ServeTurnID == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             //Ball.GetComponent<BallController>().ChangeOwner(int.Parse(PhotonNetwork.LocalPlayer.UserId));
             Ball.GetComponent<BallController>().ChangeOwner(PhotonNetwork.LocalPlayer.ActorNumber);
@@ -30,19 +30,20 @@ public class PlayerController : MonoBehaviourPun
         }
 
         //Trigger Release
-        if (SteamVR_Actions.default_GenerateBall.GetStateUp(SteamVR_Input_Sources.LeftHand))
+        if (SteamVR_Actions.default_GenerateBall.GetStateUp(SteamVR_Input_Sources.LeftHand) && GameLogic.Instance.ServeTurnID == PhotonNetwork.LocalPlayer.ActorNumber)
         {
             triggerPulled = false;
+            Ball.GetComponent<BallController>().IsLocked = false;
         }
 
-        if (!Ball.GetComponent<BallController>().IsLocked && triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null && LeftHand)
+        if (/*!Ball.GetComponent<BallController>().IsLocked &&*/ triggerPulled && Ball.GetComponent<Interactable>().attachedToHand == null && LeftHand)
         {
             LeftHand.AttachObject(Ball, GrabTypes.Trigger);
             LeftHand.HoverLock(Ball.GetComponent<Interactable>());
             //Ball.transform.localPosition = new Vector3(-0.0033f, -0.0216f, 0.0433f);
             Ball.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
         }
-        else if (!Ball.GetComponent<BallController>().IsLocked && !triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null && LeftHand)
+        else if (/*!Ball.GetComponent<BallController>().IsLocked &&*/ !triggerPulled && Ball.GetComponent<Interactable>().attachedToHand != null && LeftHand)
         {
             Ball.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
