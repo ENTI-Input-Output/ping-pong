@@ -76,6 +76,7 @@ public class GameLogic : MonoBehaviour
     public int MaxGamePoints = 11;
     public int PointsDiff = 2;
     private int _matchWinner;
+    public int ServePointsDiff = 2;
 
     [Header("Score")]
     public List<Game> Games;
@@ -202,12 +203,20 @@ public class GameLogic : MonoBehaviour
     }
 
     //TODO: CHECK THIS FUNCTION => ITERATE OVER THE LIST OF PLAYERS IN THE ROOM
-    private void ChangeTurn()
+    private void ChangeHitTurn()
     {
         if (_turnID == PhotonNetwork.LocalPlayer.ActorNumber)
             _turnID = OpponentID;
         else
             _turnID = PhotonNetwork.LocalPlayer.ActorNumber;
+    }
+
+    private void ChangeServeTurn()
+    {
+        if (ServeTurnID == PhotonNetwork.LocalPlayer.ActorNumber)
+            ServeTurnID = OpponentID;
+        else
+            ServeTurnID = PhotonNetwork.LocalPlayer.ActorNumber;
     }
 
     public void AssignTurn(int playerID)
@@ -316,6 +325,11 @@ public class GameLogic : MonoBehaviour
         else
         {
             _nextPoint = true;
+
+            if((Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] + Games[CurrentGame].Score[OpponentID]) % 2 == 0)
+            {
+                ChangeServeTurn();
+            }
         }
 
         _isFirstHit = true;
@@ -376,7 +390,7 @@ public class GameLogic : MonoBehaviour
                     else
                     {
                         //CHANGE TURN
-                        ChangeTurn();
+                        ChangeHitTurn();
                     }
                     break;
 
@@ -398,12 +412,18 @@ public class GameLogic : MonoBehaviour
                                 if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID != PhotonNetwork.LocalPlayer.ActorNumber)
                                 {
                                     //The opponent had the paddle over the field
-                                    if (PaddleOverField[OpponentID])
+                                    if (!PaddleOverField[OpponentID])
                                     {
                                         //Add score and send it to all players in room
                                         _scoreBoard.UpdateRemotePlayerScore();
                                     }
                                 }
+                                //Local player hit the ball
+                                //else if(surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.LocalPlayer.ActorNumber)
+                                //{
+                                //    //Add score and send it to all players in room
+                                //    _scoreBoard.UpdateRemotePlayerScore();
+                                //}
 
                             }
                             else //The local doesn't have the turn
@@ -412,7 +432,7 @@ public class GameLogic : MonoBehaviour
                                 if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.LocalPlayer.ActorNumber)
                                 {
                                     //The local player didn't have the paddle over the field
-                                    if (!PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber])
+                                    if (PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber])
                                     {
                                         //Add score and send it to all players in room
                                         _scoreBoard.UpdateRemotePlayerScore();
