@@ -116,7 +116,7 @@ public class GameLogic : MonoBehaviour
 
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
         Games = new List<Game>();
-        Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, 2));
+        //Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, 2));
 
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
@@ -128,25 +128,25 @@ public class GameLogic : MonoBehaviour
     private void Update()
     {
         //Check if there's another player and get its ID to set the OpponentID in GameLogic
-        //if (_lookForOponent)
-        //{
-        //    foreach (Player player in PhotonNetwork.PlayerListOthers)
-        //    {
-        //        if (player.NickName == "Player")
-        //        {
-        //            OpponentID = player.ActorNumber;
-        //            _lookForOponent = false;
+        if (_lookForOponent)
+        {
+            foreach (Player player in PhotonNetwork.PlayerListOthers)
+            {
+                if (player.NickName == "Player")
+                {
+                    OpponentID = player.ActorNumber;
+                    _lookForOponent = false;
 
-        //            //Initialize data that uses player IDs
-        //            //Paddle Over Field
-        //            PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
-        //            PaddleOverField[OpponentID] = false;
+                    //Initialize data that uses player IDs
+                    //Paddle Over Field
+                    PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
+                    PaddleOverField[OpponentID] = false;
 
-        //            //Insert first game
-        //            Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
-        //        }
-        //    }
-        //}
+                    //Insert first game
+                    Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
+                }
+            }
+        }
 
         //Intermissions between points and games => Do whatever we want (e.g. show texts)
         if (_nextPoint)
