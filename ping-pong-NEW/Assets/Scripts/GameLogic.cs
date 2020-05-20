@@ -116,6 +116,7 @@ public class GameLogic : MonoBehaviour
 
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
         Games = new List<Game>();
+        Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, 2));
 
 
         _ballReference = GameObject.FindGameObjectWithTag("ball").GetComponent<BallController>();
@@ -127,25 +128,25 @@ public class GameLogic : MonoBehaviour
     private void Update()
     {
         //Check if there's another player and get its ID to set the OpponentID in GameLogic
-        if (_lookForOponent)
-        {
-            foreach (Player player in PhotonNetwork.PlayerListOthers)
-            {
-                if (player.NickName == "Player")
-                {
-                    OpponentID = player.ActorNumber;
-                    _lookForOponent = false;
+        //if (_lookForOponent)
+        //{
+        //    foreach (Player player in PhotonNetwork.PlayerListOthers)
+        //    {
+        //        if (player.NickName == "Player")
+        //        {
+        //            OpponentID = player.ActorNumber;
+        //            _lookForOponent = false;
 
-                    //Initialize data that uses player IDs
-                    //Paddle Over Field
-                    PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
-                    PaddleOverField[OpponentID] = false;
+        //            //Initialize data that uses player IDs
+        //            //Paddle Over Field
+        //            PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber] = false;
+        //            PaddleOverField[OpponentID] = false;
 
-                    //Insert first game
-                    Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
-                }
-            }
-        }
+        //            //Insert first game
+        //            Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
+        //        }
+        //    }
+        //}
 
         //Intermissions between points and games => Do whatever we want (e.g. show texts)
         if (_nextPoint)
@@ -263,20 +264,25 @@ public class GameLogic : MonoBehaviour
     //Will try setting the opponent's score
     public void SetScore()
     {
+        foreach (KeyValuePair<int, int> score in Games[CurrentGame].Score)
+            Debug.Log("Player ID = " + score.Key + "Score = " + score.Value);
+
         //Lock the ball to avoid scoring more points until new serve
         _ballReference.IsLocked = true;
 
         bool gameEnded = false;
 
         //Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber]++;
-        if (Games[CurrentGame].Score[OpponentID] >= MaxGamePoints && Games[CurrentGame].Score[OpponentID] - Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= PointsDiff)    //This game has ended
-        {
-            Games[CurrentGame].WinnerID = OpponentID;
-            gameEnded = true;
-        }
-        else if(Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= MaxGamePoints && Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] - Games[CurrentGame].Score[OpponentID] >= PointsDiff)
+        //if (Games[CurrentGame].Score[OpponentID] >= MaxGamePoints && Games[CurrentGame].Score[OpponentID] - Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= PointsDiff)    //This game has ended
+        //{
+        //    Games[CurrentGame].WinnerID = OpponentID;
+        //    gameEnded = true;
+        //}
+        /*else*/
+        if (Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= MaxGamePoints && Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] - Games[CurrentGame].Score[OpponentID] >= PointsDiff)
         {
             Games[CurrentGame].WinnerID = PhotonNetwork.LocalPlayer.ActorNumber;
+            _scoreBoard.UpdateLocalMatchScore();
             gameEnded = true;
         }
 
@@ -284,7 +290,6 @@ public class GameLogic : MonoBehaviour
         if (gameEnded)
         {
             //UpdateLocalMatch => Scoreboard
-            _scoreBoard.UpdateLocalMatchScore();
 
             int localPlayer = GetPlayerWins(PhotonNetwork.LocalPlayer.ActorNumber);
             int opponent = GetPlayerWins(OpponentID);
@@ -340,7 +345,8 @@ public class GameLogic : MonoBehaviour
                             if (_turnID == PhotonNetwork.LocalPlayer.ActorNumber)
                             {
                                 //Add score and send it to all players in room
-                                _scoreBoard.UpdateLocalPlayerScore();
+                                //_scoreBoard.UpdateLocalPlayerScore();
+                                _scoreBoard.UpdateRemotePlayerScore();
                             }
                             break;
 
@@ -359,7 +365,7 @@ public class GameLogic : MonoBehaviour
                         if (!_isFirstHit)
                         {
                             //Add score and send it to all players in room
-                            _scoreBoard.UpdateLocalPlayerScore();
+                            _scoreBoard.UpdateRemotePlayerScore();
                         }
                         else
                         {
@@ -395,7 +401,7 @@ public class GameLogic : MonoBehaviour
                                     if (PaddleOverField[OpponentID])
                                     {
                                         //Add score and send it to all players in room
-                                        _scoreBoard.UpdateLocalPlayerScore();
+                                        _scoreBoard.UpdateRemotePlayerScore();
                                     }
                                 }
 
@@ -409,13 +415,13 @@ public class GameLogic : MonoBehaviour
                                     if (!PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber])
                                     {
                                         //Add score and send it to all players in room
-                                        _scoreBoard.UpdateLocalPlayerScore();
+                                        _scoreBoard.UpdateRemotePlayerScore();
                                     }
                                 }
                                 else
                                 {
                                     //Add score and send it to all players in room
-                                    _scoreBoard.UpdateLocalPlayerScore();
+                                    _scoreBoard.UpdateRemotePlayerScore();
                                 }
                             }
                             break;

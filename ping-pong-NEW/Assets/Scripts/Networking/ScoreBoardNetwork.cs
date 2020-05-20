@@ -6,7 +6,8 @@ using TMPro;
 
 public class ScoreBoardNetwork : MonoBehaviourPun
 {
-    TextMeshProUGUI scoreText;
+    //[SerializeField]
+    public TextMeshProUGUI scoreText;
     public TextMeshProUGUI matchP1;
     public TextMeshProUGUI matchP2;
     public int P1 = 0;
@@ -83,7 +84,7 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     void Start()
     {
         PV = transform.GetComponent<PhotonView>();
-        scoreText = GetComponentInChildren<TextMeshProUGUI>();
+        //scoreText = GetComponentInChildren<TextMeshProUGUI>();
     }
 
     void Update()
@@ -99,8 +100,34 @@ public class ScoreBoardNetwork : MonoBehaviourPun
         }
     }
 
+    //LOCAL
     //Called from GameLogic to update local score and send it to the other player
     public void UpdateLocalPlayerScore()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+        }
+    }
+
+    public void UpdateLocalMatchScore()
+    {
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PV.RPC("UpdateMatchP1", RpcTarget.AllBuffered);
+        }
+        else
+        {
+            PV.RPC("UpdateMatchP2", RpcTarget.AllBuffered);
+        }
+    }
+
+    //REMOTE
+    public void UpdateRemotePlayerScore()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -112,7 +139,7 @@ public class ScoreBoardNetwork : MonoBehaviourPun
         }
     }
 
-    public void UpdateLocalMatchScore()
+    public void UpdateRemoteMatchScore()
     {
         if (PhotonNetwork.IsMasterClient)
         {
