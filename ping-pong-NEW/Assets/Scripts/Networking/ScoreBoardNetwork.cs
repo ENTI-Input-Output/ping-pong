@@ -90,13 +90,25 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     void Update()
     {
         //DEBUG
+        //if (Input.GetKeyDown(KeyCode.Alpha0))
+        //{
+        //    PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+        //}
+
         if (Input.GetKeyDown(KeyCode.Alpha0))
         {
-            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+            if (PhotonNetwork.IsMasterClient)
+            {
+                PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+            }
+            else
+            {
+                PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+            }
         }
     }
 
