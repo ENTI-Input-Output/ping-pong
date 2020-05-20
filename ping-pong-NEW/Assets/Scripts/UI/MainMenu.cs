@@ -8,19 +8,19 @@ using System.Collections.Generic;
 public class MainMenu : MonoBehaviour
 {
     public GameObject Settings;
+    public GameObject RegularMode;
+    public GameObject TargetMode;
     
     public void RegularModeMatchButton()
     {
-        //Open
+        RegularMode.SetActive(true);
+        this.gameObject.SetActive(false);
     }
 
     public void TargetModeMatchButton()
     {
-        //Open
-    }
-    public void ObserverButton()
-    {
-        //Open Observer
+        TargetMode.SetActive(true);
+        this.gameObject.SetActive(false);
     }
     public void SettingsButton()
     {
