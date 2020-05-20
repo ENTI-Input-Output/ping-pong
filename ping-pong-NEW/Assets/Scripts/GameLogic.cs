@@ -56,6 +56,7 @@ public class GameLogic : MonoBehaviour
 
     [SerializeField]
     private bool _isFirstHit;
+    public int ServeTurnID = 0;
     //public bool[] PaddleOverField = new bool[] { false, false };
     public Dictionary<int, bool> PaddleOverField = new Dictionary<int, bool>();
     private BallController _ballReference;
