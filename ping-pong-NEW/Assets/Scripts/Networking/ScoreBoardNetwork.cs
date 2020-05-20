@@ -116,11 +116,11 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PV.RPC("UpdateMatchP1", RpcTarget.AllBuffered);
+            PV.RPC("UpdateMatchP2", RpcTarget.AllBuffered);
         }
         else
         {
-            PV.RPC("UpdateMatchP2", RpcTarget.AllBuffered);
+            PV.RPC("UpdateMatchP1", RpcTarget.AllBuffered);
         }
     }
 

@@ -78,9 +78,10 @@ public class GameLogic : MonoBehaviour
     private int _matchWinner;
 
     [Header("Score")]
-    [SerializeField]
     public List<Game> Games;
     private ScoreBoardNetwork _scoreBoard;
+    //[HideInInspector]
+    public bool MatchEnded = false;
 
     #region Singleton
     public static GameLogic Instance;
@@ -146,7 +147,7 @@ public class GameLogic : MonoBehaviour
             }
         }
 
-
+        //Intermissions between points and games => Do whatever we want (e.g. show texts)
         if (_nextPoint)
         {
             _pointTimer += Time.deltaTime;
@@ -265,11 +266,23 @@ public class GameLogic : MonoBehaviour
         //Lock the ball to avoid scoring more points until new serve
         _ballReference.IsLocked = true;
 
+        bool gameEnded = false;
+
         //Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber]++;
         if (Games[CurrentGame].Score[OpponentID] >= MaxGamePoints && Games[CurrentGame].Score[OpponentID] - Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= PointsDiff)    //This game has ended
         {
             Games[CurrentGame].WinnerID = OpponentID;
+            gameEnded = true;
+        }
+        else if(Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] >= MaxGamePoints && Games[CurrentGame].Score[PhotonNetwork.LocalPlayer.ActorNumber] - Games[CurrentGame].Score[OpponentID] >= PointsDiff)
+        {
+            Games[CurrentGame].WinnerID = PhotonNetwork.LocalPlayer.ActorNumber;
+            gameEnded = true;
+        }
 
+
+        if (gameEnded)
+        {
             //UpdateLocalMatch => Scoreboard
             _scoreBoard.UpdateLocalMatchScore();
 
@@ -279,26 +292,25 @@ public class GameLogic : MonoBehaviour
             if (localPlayer >= Mathf.RoundToInt(MaxGames / 2))
             {
                 _matchWinner = PhotonNetwork.LocalPlayer.ActorNumber;
+                Debug.Log("MATCH ENDED. YOU WON");
             }
             else if (opponent >= Mathf.RoundToInt(MaxGames / 2))
             {
                 _matchWinner = OpponentID;
+                Debug.Log("MATCH ENDED. YOU LOST");
             }
             else
             {
                 //Add new game
                 Games.Add(new Game(++CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
-
-                //_isFirstHit = true;
+                //Debug.Log("MATCH ENDED. YOU LOST");
 
                 _nextGame = true;
-                //_ballReference.IsLocked = true;
             }
         }
         else
         {
             _nextPoint = true;
-            //_ballReference.IsLocked = true;
         }
 
         _isFirstHit = true;
@@ -316,7 +328,7 @@ public class GameLogic : MonoBehaviour
             switch (_currentHitSurface)
             {
                 case SurfaceType.Floor:
-                    Debug.Log("The ball hit the floor");
+                    //Debug.Log("The ball hit the floor");
 
                     switch (_lastHitSurface)
                     {
@@ -339,7 +351,7 @@ public class GameLogic : MonoBehaviour
                     break;
 
                 case SurfaceType.Field:
-                    Debug.Log("The ball hit the field with number " + surface.FieldNum);
+                    //Debug.Log("The ball hit the field with number " + surface.FieldNum);
 
                     //If the ball hits the field of the player that has the turn, the point goes for the other player
                     if (surface.FieldNum == _turnID && _turnID == PhotonNetwork.LocalPlayer.ActorNumber)
@@ -363,11 +375,11 @@ public class GameLogic : MonoBehaviour
                     break;
 
                 case SurfaceType.Net:
-                    Debug.Log("The ball hit the net");
+                    //Debug.Log("The ball hit the net");
                     break;
 
                 case SurfaceType.Paddle:
-                    Debug.Log("The ball hit a paddle");
+                    //Debug.Log("The ball hit a paddle");
 
                     switch (_lastHitSurface)
                     {
