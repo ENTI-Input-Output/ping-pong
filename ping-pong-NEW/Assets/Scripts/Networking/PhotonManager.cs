@@ -28,20 +28,20 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         if (DataManager.Instance.IsPlayer)
         {
+            bool joined = false;
             foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
             {
-                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount <=1)
+                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount <= 1)
                 {
-
                     PhotonNetwork.JoinRoom(room.Name);
-                    break;                    
-                }
-                else
-                {
-                    PhotonNetwork.CreateRoom(DataManager.Instance.RoomType + PhotonNetwork.CountOfRooms, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+                    joined = true;
                     break;
                 }
             }
+
+            if (!joined)
+                PhotonNetwork.CreateRoom(DataManager.Instance.RoomType + PhotonNetwork.CountOfRooms, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+
         }
         else
         {
