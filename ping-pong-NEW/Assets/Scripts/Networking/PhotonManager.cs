@@ -12,28 +12,64 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public Transform ObserverTransform;
 
+    List<RoomInfo> roomsInLobby;
+
     //Provisional
     public GameObject EnvCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //CONECTAR AL SERVER
-        PhotonNetwork.ConnectUsingSettings();
-    }
-
-    //CONECTADO AL SERVER
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
+        OnCustomJoinedLobby();
     }
 
     //UNIRSE A LA SALA
-    public override void OnJoinedLobby()
+    public void OnCustomJoinedLobby()
     {
-        //TODO: ITERATE OVER ALL ROOMS CHECKING IF THERE'S THE MAX NUMBER OF "PLAYER" IN EACH
-        PhotonNetwork.JoinOrCreateRoom(DataManager.Instance.RoomType, new RoomOptions { MaxPlayers = 1 }, TypedLobby.Default);
+        if (DataManager.Instance.IsPlayer)
+        {
+            string roomToJoin = "";
+            foreach (Room room in roomsInLobby)
+            {
+                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount < 4)
+                {
+                    int players = 0;
+                    foreach (Player player in room.Players.Values)
+                    {
+                        if (player.NickName.CompareTo("Player") == 0)
+                            players++;
+                    }
+
+                    if (players < 2)
+                    {
+                        roomToJoin = room.Name;
+                    }
+                }
+            }
+
+            if (roomToJoin.CompareTo("") != 0)
+                PhotonNetwork.JoinRoom(roomToJoin);
+            else
+                PhotonNetwork.CreateRoom(DataManager.Instance.RoomType + PhotonNetwork.CountOfRooms, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+        }
+        else
+        {
+            foreach (Room room in roomsInLobby)
+            {
+                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount < 4)
+                {
+                    PhotonNetwork.JoinRoom(room.Name);
+                    break;
+                }
+            }
+        }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+
+        roomsInLobby = roomList;
     }
 
     public override void OnJoinedRoom()
