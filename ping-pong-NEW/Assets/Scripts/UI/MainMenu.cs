@@ -1,10 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using Valve.VR;
-using Valve.VR.InteractionSystem;
-using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 
 public class MainMenu : MonoBehaviour
 {
