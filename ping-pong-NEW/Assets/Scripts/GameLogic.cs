@@ -340,7 +340,7 @@ public class GameLogic : MonoBehaviour
     //************************************ LOGIC *********************************************
     public void OnBallCollision(Surface surface)
     {
-        if (!_ballReference.IsLocked)
+        if (!_ballReference.IsLocked && !_lookForOponent)
         {
             _currentHitSurface = surface.SurfaceType;
 
