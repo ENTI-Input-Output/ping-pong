@@ -12,10 +12,18 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private string SceneToLoad;
 
+    private void Start()
+    {
+        Settings.SetActive(false);
+        RegularMode.SetActive(false);
+        TargetMode.SetActive(false);
+    }
     public void RegularModeMatchButton()
     {
         RegularMode.SetActive(true);
-        Main.SetActive(false);
+        //Main.SetActive(false);
+        Settings.SetActive(false);
+        TargetMode.SetActive(false);
 
         SceneToLoad = "PlayScene";
     }
@@ -23,13 +31,17 @@ public class MainMenu : MonoBehaviour
     public void TargetModeMatchButton()
     {
         TargetMode.SetActive(true);
-        Main.SetActive(false);
+        //Main.SetActive(false);
+        Settings.SetActive(false);
+        RegularMode.SetActive(false);
     }
 
     public void SettingsButton()
     {
         Settings.SetActive(true);
-        Main.SetActive(false);
+        //Main.SetActive(false);
+        RegularMode.SetActive(false);
+        TargetMode.SetActive(false);
     }
 
     public void ExitButton()
