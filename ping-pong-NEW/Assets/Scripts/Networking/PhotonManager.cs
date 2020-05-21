@@ -20,6 +20,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
+        roomsInLobby = new List<RoomInfo>();
         OnCustomJoinedLobby();
     }
 

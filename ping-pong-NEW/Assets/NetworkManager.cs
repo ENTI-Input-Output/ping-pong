@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using TMPro;
+using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
-    public GameObject RegularObserver;
-    public GameObject TargetObserver;
+    public Button RegularObserver;
+    public Button TargetObserver;
     private List<RoomInfo> roomsInLobby;
 
     void Start()
@@ -29,12 +31,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             if (room.Name.Contains("RegularRoom") && room.PlayerCount < 4)
             {
-                RegularObserver.SetActive(true);
+                RegularObserver.interactable = true;
                 break;
             }
             else
             {
-                RegularObserver.SetActive(false);
+                RegularObserver.interactable = false;
                 break;
             }
         }
@@ -43,12 +45,12 @@ public class NetworkManager : MonoBehaviourPunCallbacks
         {
             if (room.Name.Contains("TargetRoom") && room.PlayerCount < 4)
             {
-                RegularObserver.SetActive(true);
+                RegularObserver.interactable = true;
                 break;
             }
             else
             {
-                RegularObserver.SetActive(false);
+                RegularObserver.interactable = false;
                 break;
             }
         }
