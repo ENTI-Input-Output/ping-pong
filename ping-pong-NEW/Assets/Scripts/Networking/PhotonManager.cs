@@ -33,7 +33,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         //TODO: ITERATE OVER ALL ROOMS CHECKING IF THERE'S THE MAX NUMBER OF "PLAYER" IN EACH
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+        PhotonNetwork.JoinOrCreateRoom(DataManager.Instance.RoomType, new RoomOptions { MaxPlayers = 1 }, TypedLobby.Default);
     }
 
     public override void OnJoinedRoom()
@@ -109,5 +109,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 Debug.Log("You are a " + player.NickName + " and your ID is: " + player.ActorNumber);
             }
         }
+
+        Debug.Log("Room is of type " + PhotonNetwork.CurrentRoom.Name);
     }
 }

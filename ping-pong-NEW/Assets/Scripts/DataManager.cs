@@ -24,5 +24,5 @@ public class DataManager : MonoBehaviour
     #endregion
 
     public bool IsPlayer = false;
-
+    public string RoomType;
 }

@@ -18,12 +18,16 @@ public class MainMenu : MonoBehaviour
         Main.SetActive(false);
 
         SceneToLoad = "PlayScene";
+        DataManager.Instance.RoomType = "RegularRoom";
     }
 
     public void TargetModeMatchButton()
     {
         TargetMode.SetActive(true);
         Main.SetActive(false);
+
+        SceneToLoad = "PlayScene";
+        DataManager.Instance.RoomType = "TargetRoom";
     }
 
     public void SettingsButton()
