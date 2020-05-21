@@ -388,6 +388,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 241a967746a8b99438f1b4e12eb058e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &931276233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 810712124668432959, guid: e6b773c13d182da4380c7ea476339cdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115712696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1115712696
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -467,7 +479,7 @@ PrefabInstance:
     - target: {fileID: 5975132207320965107, guid: e6b773c13d182da4380c7ea476339cdb,
         type: 3}
       propertyPath: m_Interactable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6144201646290225101, guid: e6b773c13d182da4380c7ea476339cdb,
         type: 3}
@@ -651,8 +663,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ebe898fda13d064196f3986f159ed38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RegularObserver: {fileID: 0}
-  TargetObserver: {fileID: 0}
+  RegularObserver: {fileID: 1985065137}
+  TargetObserver: {fileID: 931276233}
 --- !u!4 &1948177342
 Transform:
   m_ObjectHideFlags: 0
@@ -667,6 +679,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1985065137 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4502997538031511246, guid: e6b773c13d182da4380c7ea476339cdb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1115712696}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7775486154196794609
 PrefabInstance:
   m_ObjectHideFlags: 0

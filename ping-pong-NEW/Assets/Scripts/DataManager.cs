@@ -1,4 +1,8 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
+using System.Collections;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class DataManager : MonoBehaviour
 {
@@ -25,4 +29,5 @@ public class DataManager : MonoBehaviour
 
     public bool IsPlayer = false;
     public string RoomType;
+    public List<RoomInfo> roomsInLobby;
 }

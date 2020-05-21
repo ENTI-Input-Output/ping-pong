@@ -12,7 +12,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public Transform ObserverTransform;
 
-    List<RoomInfo> roomsInLobby;
+    //List<RoomInfo> roomsInLobby;
 
     //Provisional
     public GameObject EnvCamera;
@@ -20,7 +20,6 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     // Start is called before the first frame update
     void Start()
     {
-        roomsInLobby = new List<RoomInfo>();
         OnCustomJoinedLobby();
     }
 
@@ -30,7 +29,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         if (DataManager.Instance.IsPlayer)
         {
             string roomToJoin = "";
-            foreach (Room room in roomsInLobby)
+            foreach (Room room in DataManager.Instance.roomsInLobby)
             {
                 if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount < 4)
                 {
@@ -55,7 +54,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
         else
         {
-            foreach (Room room in roomsInLobby)
+            foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
             {
                 if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount < 4)
                 {
@@ -70,7 +69,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
     {
         base.OnRoomListUpdate(roomList);
 
-        roomsInLobby = roomList;
+        DataManager.Instance.roomsInLobby = roomList;
     }
 
     public override void OnJoinedRoom()

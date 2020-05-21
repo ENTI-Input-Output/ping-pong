@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
-using TMPro;
 using UnityEngine.UI;
 
 public class NetworkManager : MonoBehaviourPunCallbacks
 {
     public Button RegularObserver;
     public Button TargetObserver;
-    private List<RoomInfo> roomsInLobby;
+    //private List<RoomInfo> roomsInLobby;
 
     void Start()
     {
@@ -27,7 +26,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     private void RoomsUpdate()
     {
-        foreach (Room room in roomsInLobby)
+        foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
         {
             if (room.Name.Contains("RegularRoom") && room.PlayerCount < 4)
             {
@@ -41,16 +40,16 @@ public class NetworkManager : MonoBehaviourPunCallbacks
             }
         }
 
-        foreach (Room room in roomsInLobby)
+        foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
         {
             if (room.Name.Contains("TargetRoom") && room.PlayerCount < 4)
             {
-                RegularObserver.interactable = true;
+                TargetObserver.interactable = true;
                 break;
             }
             else
             {
-                RegularObserver.interactable = false;
+                TargetObserver.interactable = false;
                 break;
             }
         }
@@ -59,8 +58,9 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         base.OnRoomListUpdate(roomList);
+        Debug.Log("ROOMS UPDATE");
 
-        roomsInLobby = roomList;
+        DataManager.Instance.roomsInLobby = roomList;
         RoomsUpdate();
     }
 }
