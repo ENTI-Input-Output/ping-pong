@@ -12,28 +12,55 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public Transform ObserverTransform;
 
+    //List<RoomInfo> roomsInLobby;
+
     //Provisional
     public GameObject EnvCamera;
 
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //CONECTAR AL SERVER
-        PhotonNetwork.ConnectUsingSettings();
-    }
-
-    //CONECTADO AL SERVER
-    public override void OnConnectedToMaster()
-    {
-        PhotonNetwork.JoinLobby();
+        OnCustomJoinedLobby();
     }
 
     //UNIRSE A LA SALA
-    public override void OnJoinedLobby()
+    public void OnCustomJoinedLobby()
     {
-        //TODO: ITERATE OVER ALL ROOMS CHECKING IF THERE'S THE MAX NUMBER OF "PLAYER" IN EACH
-        PhotonNetwork.JoinOrCreateRoom("Room", new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+        if (DataManager.Instance.IsPlayer)
+        {
+            bool joined = false;
+            foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
+            {
+                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount <= 1)
+                {
+                    PhotonNetwork.JoinRoom(room.Name);
+                    joined = true;
+                    break;
+                }
+            }
+
+            if (!joined)
+                PhotonNetwork.CreateRoom(DataManager.Instance.RoomType + PhotonNetwork.CountOfRooms, new RoomOptions { MaxPlayers = 4 }, TypedLobby.Default);
+
+        }
+        else
+        {
+            foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
+            {
+                if (room.Name.Contains(DataManager.Instance.RoomType) && room.PlayerCount >= 2 && room.PlayerCount < 4)
+                {
+                    PhotonNetwork.JoinRoom(room.Name);
+                    break;
+                }
+            }
+        }
+    }
+
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    {
+        base.OnRoomListUpdate(roomList);
+
+        DataManager.Instance.roomsInLobby = roomList;
     }
 
     public override void OnJoinedRoom()
@@ -109,5 +136,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
                 Debug.Log("You are a " + player.NickName + " and your ID is: " + player.ActorNumber);
             }
         }
+
+        Debug.Log("Room is of type " + PhotonNetwork.CurrentRoom.Name);
     }
 }

@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
         TargetMode.SetActive(false);
 
         SceneToLoad = "PlayScene";
+        DataManager.Instance.RoomType = "RegularRoom";
     }
 
     public void TargetModeMatchButton()
@@ -34,6 +35,9 @@ public class MainMenu : MonoBehaviour
         //Main.SetActive(false);
         Settings.SetActive(false);
         RegularMode.SetActive(false);
+
+        SceneToLoad = "PlayScene";
+        DataManager.Instance.RoomType = "TargetRoom";
     }
 
     public void SettingsButton()
