@@ -28,7 +28,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     {
         foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
         {
-            if (room.Name.Contains("RegularRoom") && room.PlayerCount < 4)
+            if (room.Name.Contains("RegularRoom") && room.PlayerCount >= 2 && room.PlayerCount < 4)
             {
                 RegularObserver.interactable = true;
                 break;
@@ -42,7 +42,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
         foreach (RoomInfo room in DataManager.Instance.roomsInLobby)
         {
-            if (room.Name.Contains("TargetRoom") && room.PlayerCount < 4)
+            if (room.Name.Contains("TargetRoom") && room.PlayerCount >= 2 && room.PlayerCount < 4)
             {
                 TargetObserver.interactable = true;
                 break;
