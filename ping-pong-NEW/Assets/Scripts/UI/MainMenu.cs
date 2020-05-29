@@ -9,7 +9,7 @@ public class MainMenu : MonoBehaviour
     public GameObject TargetMode;
     public GameObject Player;
 
-    [SerializeField]
+    //[SerializeField]
     private string SceneToLoad;
 
     private void Start()
@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
         Settings.SetActive(false);
         TargetMode.SetActive(false);
 
-        SceneToLoad = "PlayScene";
+        SceneToLoad = "RegularMatch";
         DataManager.Instance.RoomType = "RegularRoom";
     }
 
@@ -36,7 +36,7 @@ public class MainMenu : MonoBehaviour
         Settings.SetActive(false);
         RegularMode.SetActive(false);
 
-        SceneToLoad = "PlayScene";
+        SceneToLoad = "TargetMatch";
         DataManager.Instance.RoomType = "TargetRoom";
     }
 
