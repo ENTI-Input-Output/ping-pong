@@ -569,6 +569,43 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 742985784}
   m_CullTransparentMesh: 0
+--- !u!1 &784449557 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 926408674706403820, guid: d40e228503cea9f4188c575c12677bfb,
+    type: 3}
+  m_PrefabInstance: {fileID: 1738378228}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &784449558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 784449557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4425b599453d234383063e3e0cd30f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OpponentID: 0
+  _lastHitSurface: 0
+  _currentHitSurface: 0
+  CurrentGame: 0
+  _turnID: 0
+  _isFirstHit: 0
+  ServeTurnID: 1
+  _ballReference: {fileID: 0}
+  PointIntermissionTime: 3
+  GameIntermissionTime: 5
+  _nextGame: 0
+  _nextPoint: 0
+  GamesToWin: 3
+  MaxGames: 5
+  MaxGamePoints: 11
+  PointsDiff: 2
+  ServePointsDiff: 2
+  Games: []
+  MatchEnded: 0
 --- !u!1 &854164916
 GameObject:
   m_ObjectHideFlags: 0
@@ -1566,7 +1603,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 926408674706403821, guid: d40e228503cea9f4188c575c12677bfb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d40e228503cea9f4188c575c12677bfb, type: 3}
 --- !u!1 &1764191937
 GameObject:
