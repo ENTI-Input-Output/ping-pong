@@ -92,85 +92,13 @@ public class TargetLogic : GameLogic
                     break;
 
                 case SurfaceType.Field:
-                    //Debug.Log("The ball hit the field with number " + surface.FieldNum);
-
-                    //If the ball hits the field of the player that has the turn, the point goes for the other player
-                    if (surface.FieldNum == _turnID && _turnID == PhotonNetwork.LocalPlayer.ActorNumber)
-                    {
-                        if (!_isFirstHit)
-                        {
-                            //Add score and send it to all players in room
-                            _scoreBoard.UpdateRemotePlayerScore();
-                        }
-                        else
-                        {
-                            //It is no more the first hit
-                            _isFirstHit = false;
-                        }
-                    }
-                    else
-                    {
-                        //CHANGE TURN
-                        ChangeHitTurn();
-                    }
+                    //Debug only
+                    Debug.Log("ASDFADFSASDF");
                     break;
 
-                case SurfaceType.Net:
-                    //Debug.Log("The ball hit the net");
-                    break;
-
-                case SurfaceType.Paddle:
-                    //Debug.Log("The ball hit a paddle");
-
-                    switch (_lastHitSurface)
-                    {
-                        case SurfaceType.Net:
-                        case SurfaceType.Paddle:
-                            //The local player has the turn
-                            if (_turnID == PhotonNetwork.LocalPlayer.ActorNumber)
-                            {
-                                //The opponent hit the ball
-                                if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID != PhotonNetwork.LocalPlayer.ActorNumber)
-                                {
-                                    //The opponent had the paddle over the field
-                                    if (!PaddleOverField[OpponentID])
-                                    {
-                                        //Add score and send it to all players in room
-                                        _scoreBoard.UpdateRemotePlayerScore();
-                                    }
-                                }
-                                //Local player hit the ball
-                                //else if(surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.LocalPlayer.ActorNumber)
-                                //{
-                                //    //Add score and send it to all players in room
-                                //    _scoreBoard.UpdateRemotePlayerScore();
-                                //}
-
-                            }
-                            else //The local doesn't have the turn
-                            {
-                                //The local player hit the ball
-                                if (surface.transform.parent.GetComponent<PlayerController>() && surface.transform.parent.GetComponent<PlayerController>().PlayerID == PhotonNetwork.LocalPlayer.ActorNumber)
-                                {
-                                    //The local player didn't have the paddle over the field
-                                    if (PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber])
-                                    {
-                                        //Add score and send it to all players in room
-                                        _scoreBoard.UpdateRemotePlayerScore();
-                                    }
-                                }
-                                else
-                                {
-                                    //Add score and send it to all players in room
-                                    _scoreBoard.UpdateRemotePlayerScore();
-                                }
-                            }
-                            break;
-
-                        default:
-                            Debug.Log("Surface case not controlled. Last hit was: " + _lastHitSurface);
-                            break;
-                    }
+                case SurfaceType.Target:
+                    //TODO
+                    Debug.Log("Ball hit a target");
                     break;
 
                 default:

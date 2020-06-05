@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum SurfaceType { Field, Floor, Paddle, Net, None };
+public enum SurfaceType { Field, Floor, Paddle, Net, Target, None };
 
 public class Surface : MonoBehaviour
 {
