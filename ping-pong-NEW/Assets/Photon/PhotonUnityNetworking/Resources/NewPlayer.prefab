@@ -3148,6 +3148,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Paddle
       objectReference: {fileID: 0}
+    - target: {fileID: 1956292432122073133, guid: bc950003fa920904d9c929a5bcb43b5e,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
     - target: {fileID: 1956292432122104845, guid: bc950003fa920904d9c929a5bcb43b5e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -3239,6 +3244,26 @@ PrefabInstance:
       propertyPath: leftHand.vrTarget
       value: 
       objectReference: {fileID: 3762876524704705662}
+    - target: {fileID: 3249436224077442139, guid: c8b913a519ed6474a945a42994c8e093,
+        type: 3}
+      propertyPath: layerToIgnore.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249436224077442139, guid: c8b913a519ed6474a945a42994c8e093,
+        type: 3}
+      propertyPath: layerToIgnore.Array.data[0].m_Bits
+      value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249436224077442139, guid: c8b913a519ed6474a945a42994c8e093,
+        type: 3}
+      propertyPath: layerToIgnore.Array.data[1].m_Bits
+      value: 16384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3249436224077442139, guid: c8b913a519ed6474a945a42994c8e093,
+        type: 3}
+      propertyPath: layerToIgnore.m_Bits
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6789664698706130074, guid: c8b913a519ed6474a945a42994c8e093,
         type: 3}
       propertyPath: m_Name
