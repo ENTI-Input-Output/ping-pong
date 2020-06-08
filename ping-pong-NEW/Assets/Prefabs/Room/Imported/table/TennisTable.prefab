@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 5114024332612294611}
   m_Layer: 0
   m_Name: Field02
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -153,7 +153,7 @@ GameObject:
   - component: {fileID: 700218356905183239}
   m_Layer: 0
   m_Name: Net
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -259,7 +259,7 @@ GameObject:
   - component: {fileID: 7034607477648718315}
   m_Layer: 0
   m_Name: Cylinder002
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 7034607477648718317}
   m_Layer: 0
   m_Name: Cylinder001
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -417,7 +417,7 @@ GameObject:
   - component: {fileID: 7034607477648718327}
   m_Layer: 0
   m_Name: Box005
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -496,7 +496,7 @@ GameObject:
   - component: {fileID: 7034607477648718329}
   m_Layer: 0
   m_Name: Box004
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -575,7 +575,7 @@ GameObject:
   - component: {fileID: 7034607477648718331}
   m_Layer: 0
   m_Name: Box003
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 7034607477648718333}
   m_Layer: 0
   m_Name: Box002
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -737,7 +737,7 @@ GameObject:
   - component: {fileID: 2541853203689796921}
   m_Layer: 0
   m_Name: Field01
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -870,7 +870,7 @@ GameObject:
   - component: {fileID: 7034607477643351295}
   m_Layer: 0
   m_Name: TennisTable
-  m_TagString: Untagged
+  m_TagString: IgnoreRayCast
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
