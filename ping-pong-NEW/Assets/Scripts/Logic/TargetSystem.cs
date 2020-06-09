@@ -114,12 +114,15 @@ public class TargetSystem : MonoBehaviourPun
             _photonView = GetComponent<PhotonView>();
         _photonView.RPC("RemoveTarget", RpcTarget.OthersBuffered, index);
 
+        Destroy(target);
         CurrentTargets.RemoveAt(index);
     }
 
     [PunRPC]
     private void RemoveTarget(int index)
     {
+        Destroy(CurrentTargets[index]);
         CurrentTargets.RemoveAt(index);
+        Debug.Log("REMOVED TARGET");
     }
 }
