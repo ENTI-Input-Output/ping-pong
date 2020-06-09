@@ -30,11 +30,11 @@ public class TargetSystem : MonoBehaviourPun
 
     private void Update()
     {
-        if (SpawnTargets)
-        {
-            SpawnInitialTargets();
-            SpawnTargets = false;
-        }
+        //if (SpawnTargets)
+        //{
+        //    SpawnInitialTargets();
+        //    SpawnTargets = false;
+        //}
 
         if (CurrentTargets.Count < ConcurrentTargets && !_firstSpawn)
         {
@@ -73,12 +73,36 @@ public class TargetSystem : MonoBehaviourPun
         //Send new target to the opponent
         if (!_photonView)
             _photonView = GetComponent<PhotonView>();
-        _photonView.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+        _photonView.RPC("CreateTarget", RpcTarget.OthersBuffered, position, chance);
     }
 
-    [PunRPC]
-    private void SyncTarget()
+    private void SpawnTarget(Vector3 position, float chance)
     {
-        //todo
+        GameObject newTarget;
+
+        if (chance < LittleBigTargetChance.x)  //Little Target
+        {
+            newTarget = Instantiate(LittleTargetPrefab, position, Quaternion.identity, transform);
+            newTarget.GetComponent<Target>().TargetSystem = this;
+            CurrentTargets.Add(newTarget);
+        }
+        else if (chance < LittleBigTargetChance.y)   //Big Target
+        {
+            newTarget = Instantiate(BigTargetPrefab, position, Quaternion.identity, transform);
+            newTarget.GetComponent<Target>().TargetSystem = this;
+            CurrentTargets.Add(newTarget);
+        }
+
+        //Send new target to the opponent
+        if (!_photonView)
+            _photonView = GetComponent<PhotonView>();
+        _photonView.RPC("CreateTarget", RpcTarget.OthersBuffered, position);
+    }
+
+
+    [PunRPC]
+    private void CreateTarget(Vector3 position, float chance)
+    {
+        SpawnTarget(position, chance);
     }
 }
