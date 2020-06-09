@@ -162,9 +162,10 @@ public class TargetLogic : GameLogic
 
                 case SurfaceType.Target:
                     //Destroy(surface.gameObject);
-                    if (!_targetSystem)
-                        _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
-                    _targetSystem.RemoveTarget(surface.gameObject);
+                    //if (!_targetSystem)
+                    //    _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
+                    //_targetSystem.RemoveTarget(surface.gameObject);
+                    Destroy(surface.gameObject);
                     _scoreBoard.UpdateLocalPlayerScore(surface.GetComponent<Target>().ScoreInc);
                     Debug.Log("Ball hit a target");
                     break;
