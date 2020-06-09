@@ -22,7 +22,7 @@ public class TargetSystem : MonoBehaviourPun
     private bool _firstSpawn = true;
     //[SerializeField]
     //[HideInInspector]
-    private List<GameObject> _currentTargets;
+    public List<GameObject> CurrentTargets;
 
     [SerializeField]
     private PhotonView _photonView;
@@ -36,7 +36,7 @@ public class TargetSystem : MonoBehaviourPun
         //    SpawnTargets = false;
         //}
 
-        if (_currentTargets.Count < ConcurrentTargets && !_firstSpawn)
+        if (CurrentTargets.Count < ConcurrentTargets && !_firstSpawn)
         {
             SpawnTarget();
         }
@@ -61,13 +61,13 @@ public class TargetSystem : MonoBehaviourPun
         {
             newTarget = Instantiate(LittleTargetPrefab, position, Quaternion.identity, transform);
             newTarget.GetComponent<Target>().TargetSystem = this;
-            _currentTargets.Add(newTarget);
+            CurrentTargets.Add(newTarget);
         }
         else if (chance < LittleBigTargetChance.y)   //Big Target
         {
             newTarget = Instantiate(BigTargetPrefab, position, Quaternion.identity, transform);
             newTarget.GetComponent<Target>().TargetSystem = this;
-            _currentTargets.Add(newTarget);
+            CurrentTargets.Add(newTarget);
         }
 
         //Send new target to the opponent
@@ -84,13 +84,13 @@ public class TargetSystem : MonoBehaviourPun
         {
             newTarget = Instantiate(LittleTargetPrefab, position, Quaternion.identity, transform);
             newTarget.GetComponent<Target>().TargetSystem = this;
-            _currentTargets.Add(newTarget);
+            CurrentTargets.Add(newTarget);
         }
         else if (chance < LittleBigTargetChance.y)   //Big Target
         {
             newTarget = Instantiate(BigTargetPrefab, position, Quaternion.identity, transform);
             newTarget.GetComponent<Target>().TargetSystem = this;
-            _currentTargets.Add(newTarget);
+            CurrentTargets.Add(newTarget);
         }
 
         //Send new target to the opponent
@@ -107,19 +107,19 @@ public class TargetSystem : MonoBehaviourPun
 
     public void RemoveTarget(GameObject target)
     {
-        int index = _currentTargets.IndexOf(target);
+        int index = CurrentTargets.IndexOf(target);
 
         //Send new target to the opponent
         if (!_photonView)
             _photonView = GetComponent<PhotonView>();
         _photonView.RPC("RemoveTarget", RpcTarget.OthersBuffered, index);
 
-        _currentTargets.RemoveAt(index);
+        CurrentTargets.RemoveAt(index);
     }
 
     [PunRPC]
     private void RemoveTarget(int index)
     {
-        _currentTargets.RemoveAt(index);
+        CurrentTargets.RemoveAt(index);
     }
 }
