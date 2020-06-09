@@ -32,7 +32,8 @@ public class TargetLogic : GameLogic
                     Games.Add(new Game(CurrentGame, PhotonNetwork.LocalPlayer.ActorNumber, OpponentID));
 
                     //Spawn Targets
-                    _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
+                    if (!_targetSystem)
+                        _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
                     _targetSystem.SpawnInitialTargets();
                 }
             }
@@ -149,8 +150,7 @@ public class TargetLogic : GameLogic
                             {
                                 //Add score and send it to all players in room
                                 //_scoreBoard.UpdateLocalPlayerScore();
-                                //_scoreBoard.UpdateLocalPlayerScore(-5);
-                                Debug.Log("THE BALL FELL");
+                                _scoreBoard.UpdateLocalPlayerScore(-5);
                             }
                             break;
 
@@ -160,14 +160,11 @@ public class TargetLogic : GameLogic
                     }
                     break;
 
-                //case SurfaceType.Field:
-                //    //Debug only
-                //    Debug.Log("ASDFADFSASDF");
-                //    break;
-
                 case SurfaceType.Target:
-                    //TODO
-                    Destroy(surface.gameObject);
+                    //Destroy(surface.gameObject);
+                    if (!_targetSystem)
+                        _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
+                    _targetSystem.RemoveTarget(surface.gameObject);
                     _scoreBoard.UpdateLocalPlayerScore(surface.GetComponent<Target>().ScoreInc);
                     Debug.Log("Ball hit a target");
                     break;

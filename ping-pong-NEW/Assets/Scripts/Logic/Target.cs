@@ -22,8 +22,8 @@ public class Target : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        TargetSystem.CurrentTargets.Remove(gameObject);
-    }
+    //private void OnDestroy()
+    //{
+    //    TargetSystem.CurrentTargets.Remove(gameObject);
+    //}
 }
