@@ -93,10 +93,10 @@ public class TargetSystem : MonoBehaviourPun
             CurrentTargets.Add(newTarget);
         }
 
-        //Send new target to the opponent
-        if (!_photonView)
-            _photonView = GetComponent<PhotonView>();
-        _photonView.RPC("CreateTarget", RpcTarget.OthersBuffered, position);
+        ////Send new target to the opponent
+        //if (!_photonView)
+        //    _photonView = GetComponent<PhotonView>();
+        //_photonView.RPC("CreateTarget", RpcTarget.OthersBuffered, position, chance);
     }
 
     [PunRPC]
