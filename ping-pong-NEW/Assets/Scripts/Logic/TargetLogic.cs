@@ -14,7 +14,7 @@ public class TargetLogic : GameLogic
     private void Update()
     {
         //Check if there's another player and get its ID to set the OpponentID in GameLogic
-        if (_lookForOponent /*&& PhotonNetwork.IsMasterClient*/)
+        if (_lookForOponent && PhotonNetwork.IsMasterClient)
         {
             foreach (Player player in PhotonNetwork.PlayerListOthers)
             {
@@ -149,7 +149,8 @@ public class TargetLogic : GameLogic
                             {
                                 //Add score and send it to all players in room
                                 //_scoreBoard.UpdateLocalPlayerScore();
-                                _scoreBoard.UpdateLocalPlayerScore(-5);
+                                //_scoreBoard.UpdateLocalPlayerScore(-5);
+                                Debug.Log("THE BALL FELL");
                             }
                             break;
 

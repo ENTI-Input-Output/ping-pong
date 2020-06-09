@@ -604,6 +604,7 @@ MonoBehaviour:
   MaxGamePoints: 11
   PointsDiff: 2
   ServePointsDiff: 2
+  ScoreInc: 1
   Games: []
   MatchEnded: 0
 --- !u!1 &854164916
@@ -1768,6 +1769,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700218356905183239, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: SurfaceType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7034607477650619181, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class TargetSystem : MonoBehaviour
+public class TargetSystem : MonoBehaviourPun
 {
     [Header("References")]
     public GameObject LittleTargetPrefab;
@@ -23,6 +24,8 @@ public class TargetSystem : MonoBehaviour
     //[HideInInspector]
     public List<GameObject> CurrentTargets;
 
+    [SerializeField]
+    private PhotonView _photonView;
 
 
     private void Update()
@@ -66,5 +69,16 @@ public class TargetSystem : MonoBehaviour
             newTarget.GetComponent<Target>().TargetSystem = this;
             CurrentTargets.Add(newTarget);
         }
+
+        //Send new target to the opponent
+        if (!_photonView)
+            _photonView = GetComponent<PhotonView>();
+        _photonView.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    private void SyncTarget()
+    {
+        //todo
     }
 }

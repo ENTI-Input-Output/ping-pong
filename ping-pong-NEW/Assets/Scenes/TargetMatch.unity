@@ -357,7 +357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &628706404
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1347,7 +1347,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1622501798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1607,6 +1607,7 @@ MonoBehaviour:
   ScoreInc: 5
   Games: []
   MatchEnded: 0
+  _targetSystem: {fileID: 0}
 --- !u!1 &1764191937
 GameObject:
   m_ObjectHideFlags: 0
@@ -1769,6 +1770,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 700218356905183239, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: SurfaceType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7034607477650619181, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2197,3 +2203,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c9763e392f11c354ba4e7b9b4f0fae7c, type: 3}
+--- !u!1 &1791260930391039827 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1791260930782108084, guid: c9763e392f11c354ba4e7b9b4f0fae7c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1791260930391039826}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1791260930391039828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1791260930391039827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 0
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 0}
+  viewIdField: 3
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
