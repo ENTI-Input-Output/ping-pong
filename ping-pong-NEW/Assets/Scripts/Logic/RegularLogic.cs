@@ -183,8 +183,8 @@ public class RegularLogic : GameLogic
     //Will try setting the opponent's score
     public override void SetScore()
     {
-        foreach (KeyValuePair<int, int> score in Games[CurrentGame].Score)
-            Debug.Log("Player ID = " + score.Key + "Score = " + score.Value);
+        //foreach (KeyValuePair<int, int> score in Games[CurrentGame].Score)
+        //    Debug.Log("Player ID = " + score.Key + "Score = " + score.Value);
 
         //Lock the ball to avoid scoring more points until new serve
         _ballReference.IsLocked = true;
@@ -270,7 +270,7 @@ public class RegularLogic : GameLogic
                             {
                                 //Add score and send it to all players in room
                                 //_scoreBoard.UpdateLocalPlayerScore();
-                                _scoreBoard.UpdateRemotePlayerScore();
+                                _scoreBoard.UpdateRemotePlayerScore(ScoreInc);
                             }
                             break;
 
@@ -289,7 +289,7 @@ public class RegularLogic : GameLogic
                         if (!_isFirstHit)
                         {
                             //Add score and send it to all players in room
-                            _scoreBoard.UpdateRemotePlayerScore();
+                            _scoreBoard.UpdateRemotePlayerScore(ScoreInc);
                         }
                         else
                         {
@@ -325,7 +325,7 @@ public class RegularLogic : GameLogic
                                     if (!PaddleOverField[OpponentID])
                                     {
                                         //Add score and send it to all players in room
-                                        _scoreBoard.UpdateRemotePlayerScore();
+                                        _scoreBoard.UpdateRemotePlayerScore(ScoreInc);
                                     }
                                 }
                                 //Local player hit the ball
@@ -345,13 +345,13 @@ public class RegularLogic : GameLogic
                                     if (PaddleOverField[PhotonNetwork.LocalPlayer.ActorNumber])
                                     {
                                         //Add score and send it to all players in room
-                                        _scoreBoard.UpdateRemotePlayerScore();
+                                        _scoreBoard.UpdateRemotePlayerScore(ScoreInc);
                                     }
                                 }
                                 else
                                 {
                                     //Add score and send it to all players in room
-                                    _scoreBoard.UpdateRemotePlayerScore();
+                                    _scoreBoard.UpdateRemotePlayerScore(ScoreInc);
                                 }
                             }
                             break;

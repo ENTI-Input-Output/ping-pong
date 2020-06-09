@@ -79,6 +79,7 @@ public abstract class GameLogic : MonoBehaviour
     public int ServePointsDiff = 2;
 
     [Header("Score")]
+    public int ScoreInc = 1;
     public List<Game> Games;
     protected ScoreBoardNetwork _scoreBoard;
     //[HideInInspector]
