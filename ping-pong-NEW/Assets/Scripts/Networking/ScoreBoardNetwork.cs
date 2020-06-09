@@ -18,9 +18,9 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     private PhotonView PV;
 
     [PunRPC]
-    void UpdateScorePointP1()
+    void UpdateScorePointP1(int inc)
     {
-        P1++;
+        P1 += inc;
         UpdateScoreLocal();
     }
 
@@ -33,9 +33,9 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     }
 
     [PunRPC]
-    void UpdateScorePointP2()
+    void UpdateScorePointP2(int inc)
     {
-        P2++;
+        P2 += inc;
         UpdateScoreLocal();
     }
 
@@ -114,15 +114,15 @@ public class ScoreBoardNetwork : MonoBehaviourPun
 
     //LOCAL
     //Called from GameLogic to update local score and send it to the other player
-    public void UpdateLocalPlayerScore()
+    public void UpdateLocalPlayerScore(int inc)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered, inc);
         }
         else
         {
-            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered, inc);
         }
     }
 
@@ -139,15 +139,15 @@ public class ScoreBoardNetwork : MonoBehaviourPun
     }
 
     //REMOTE
-    public void UpdateRemotePlayerScore()
+    public void UpdateRemotePlayerScore(int inc)
     {
         if (PhotonNetwork.IsMasterClient)
         {
-            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered);
+            PV.RPC("UpdateScorePointP2", RpcTarget.AllBuffered, inc);
         }
         else
         {
-            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered);
+            PV.RPC("UpdateScorePointP1", RpcTarget.AllBuffered, inc);
         }
     }
 

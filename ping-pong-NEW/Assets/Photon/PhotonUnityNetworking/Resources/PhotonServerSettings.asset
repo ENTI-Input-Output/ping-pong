@@ -39,5 +39,8 @@ MonoBehaviour:
   - UpdateMatchP1
   - UpdateMatchP2
   - UpdateGameLogic
+  - SyncTarget
+  - CreateTarget
+  - RemoveTarget
   DisableAutoOpenWizard: 1
   ShowSettings: 1

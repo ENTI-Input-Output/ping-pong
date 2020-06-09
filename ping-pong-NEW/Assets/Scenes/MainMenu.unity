@@ -359,7 +359,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787591880}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b2f511c1adaa1e94ebe7ca97bbcabd17, type: 3}
   m_Name: 
@@ -383,7 +383,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 787591880}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 241a967746a8b99438f1b4e12eb058e6, type: 3}
   m_Name: 
@@ -436,6 +436,21 @@ PrefabInstance:
       propertyPath: m_textInfo.pageCount
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2425301112970381914, guid: e6b773c13d182da4380c7ea476339cdb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2479467980077979796, guid: e6b773c13d182da4380c7ea476339cdb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3533572589437309227, guid: e6b773c13d182da4380c7ea476339cdb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3617344027571275468, guid: e6b773c13d182da4380c7ea476339cdb,
         type: 3}
       propertyPath: m_Camera
@@ -485,6 +500,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MainMenuWorldSpace
+      objectReference: {fileID: 0}
+    - target: {fileID: 6162002901109877065, guid: e6b773c13d182da4380c7ea476339cdb,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6217683086430153650, guid: e6b773c13d182da4380c7ea476339cdb,
         type: 3}
