@@ -6,6 +6,8 @@ TagManager:
   tags:
   - projectile
   - FxTemporaire
+  - ball
+  - IgnoreRayCast
   layers:
   - Default
   - TransparentFX
@@ -21,7 +23,7 @@ TagManager:
   - Test
   - asjdfasdf
   - fghjfhj
-  - 
+  - IgnoreRayCast
   - 
   - 
   - 

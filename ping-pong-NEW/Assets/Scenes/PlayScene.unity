@@ -458,7 +458,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &742985785
 RectTransform:
   m_ObjectHideFlags: 0
@@ -679,7 +679,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &874337625
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1469,7 +1469,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 3
+  serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -3292925553009838691, guid: 3e56c3c37d932f948aa3e5cadf34e7ec, type: 3}
@@ -1714,6 +1714,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5235810049218961743, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5235810049218961743, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754197719874694922, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5754197719874694922, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
     - target: {fileID: 7034607477650619181, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1769,10 +1789,90 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646819, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646819, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646821, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646821, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646835, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646835, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646837, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646837, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646839, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646839, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646841, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646841, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646843, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646843, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
+      objectReference: {fileID: 0}
     - target: {fileID: 7034607477650646861, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
         type: 3}
       propertyPath: m_Name
       value: TennisTable
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646861, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7034607477650646861, guid: dcd0153f2894fff4d96a5b7fecd9f2ff,
+        type: 3}
+      propertyPath: m_TagString
+      value: IgnoreRayCast
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dcd0153f2894fff4d96a5b7fecd9f2ff, type: 3}

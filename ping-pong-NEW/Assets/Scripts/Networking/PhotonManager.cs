@@ -6,7 +6,7 @@ using Photon.Realtime;
 
 public class PhotonManager : MonoBehaviourPunCallbacks
 {
-    //bool isPlayer = false;
+    bool isPlayer = false;
     public Transform Player1Transform;
     public Transform Player2Transform;
 
@@ -65,7 +65,7 @@ public class PhotonManager : MonoBehaviourPunCallbacks
 
     public override void OnJoinedRoom()
     {
-        if (DataManager.Instance.IsPlayer)
+        if (isPlayer)
             PhotonNetwork.LocalPlayer.NickName = "Player";
         else
             PhotonNetwork.LocalPlayer.NickName = "Observer";
@@ -105,25 +105,25 @@ public class PhotonManager : MonoBehaviourPunCallbacks
         }
     }
 
-    //public void OnPlayerClick()
-    //{
-    //    isPlayer = true;
+    public void OnPlayerClick()
+    {
+        isPlayer = true;
 
-    //    PhotonNetwork.AutomaticallySyncScene = true;
-    //    //CONECTAR AL SERVER
-    //    PhotonNetwork.ConnectUsingSettings();
+        PhotonNetwork.AutomaticallySyncScene = true;
+        //CONECTAR AL SERVER
+        PhotonNetwork.ConnectUsingSettings();
 
-    //    EnvCamera.SetActive(false);
-    //}
+        EnvCamera.SetActive(false);
+    }
 
-    //public void OnObserverClick()
-    //{
-    //    isPlayer = false;
+    public void OnObserverClick()
+    {
+        isPlayer = false;
 
-    //    PhotonNetwork.AutomaticallySyncScene = true;
-    //    //CONECTAR AL SERVER
-    //    PhotonNetwork.ConnectUsingSettings();
-    //}
+        PhotonNetwork.AutomaticallySyncScene = true;
+        //CONECTAR AL SERVER
+        PhotonNetwork.ConnectUsingSettings();
+    }
 
     public void PrintNicknames()
     {
