@@ -3,9 +3,9 @@
 
 ### Set Up
 
-Start the programm with the VR dispositive conetected to the PC. When click "Play" in Target or Regular mode will start a game, if other players are conectened from other dispositives you will match in a same room. 
+Start the program with the VR headset connected to the PC. When click "Play" in Target or Regular mode will start a game, if other players are connected from other devices you will match in the same room. 
 
-You can watch a game as a observer.
+If there's a room with enough players (two) you can then join the room and watch the game as an observer.
 
 ### User Test
 
@@ -18,15 +18,15 @@ https://trello.com/b/qEgZTovE/io2020-ping-pong-vr
 
 Samuel Balcells Valdivia
 
-Massimo Boet Testa
+- Massimo Boet Testa
 
-Javier García Gómez
+- Javier García Gómez
 
-David Recuenco Oliver
+- David Recuenco Oliver
 
-David Recuero Redrado
+- David Recuero Redrado
 
-Àlex Rivero Ferràs
+- Àlex Rivero Ferràs
 
 
 
