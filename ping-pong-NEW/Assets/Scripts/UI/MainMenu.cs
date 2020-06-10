@@ -8,9 +8,15 @@ public class MainMenu : MonoBehaviour
     public GameObject RegularMode;
     public GameObject TargetMode;
     public GameObject Player;
+    public AudioClip clickSound;
 
     //[SerializeField]
     private string SceneToLoad;
+
+    private void ClickSound()
+    {
+        GetComponent<AudioSource>().PlayOneShot(clickSound);
+    }
 
     private void Start()
     {
@@ -20,6 +26,7 @@ public class MainMenu : MonoBehaviour
     }
     public void RegularModeMatchButton()
     {
+        ClickSound();
         RegularMode.SetActive(true);
         //Main.SetActive(false);
         Settings.SetActive(false);
@@ -31,6 +38,7 @@ public class MainMenu : MonoBehaviour
 
     public void TargetModeMatchButton()
     {
+        ClickSound();
         TargetMode.SetActive(true);
         //Main.SetActive(false);
         Settings.SetActive(false);
@@ -42,6 +50,7 @@ public class MainMenu : MonoBehaviour
 
     public void SettingsButton()
     {
+        ClickSound();
         Settings.SetActive(true);
         //Main.SetActive(false);
         RegularMode.SetActive(false);
@@ -50,11 +59,13 @@ public class MainMenu : MonoBehaviour
 
     public void ExitButton()
     {
+        ClickSound();
         Application.Quit();
     }
 
     public void OnPlayClick()
     {
+        ClickSound();
         DataManager.Instance.IsPlayer = true;
         Destroy(Player);
         SceneManager.LoadScene(SceneToLoad);
@@ -62,6 +73,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnObserverClick()
     {
+        ClickSound();
         DataManager.Instance.IsPlayer = false;
         Destroy(Player);
         SceneManager.LoadScene(SceneToLoad);
@@ -69,6 +81,7 @@ public class MainMenu : MonoBehaviour
 
     public void OnBackClick()
     {
+        ClickSound();
         Main.SetActive(true);
         RegularMode.SetActive(false);
         TargetMode.SetActive(false);

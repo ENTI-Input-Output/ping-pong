@@ -246,7 +246,11 @@ public class RegularLogic : GameLogic
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
     }
 
-
+    public AudioClip[] SFXClips;
+    public void PlaySFXOnBall(int WhatToPlay)
+    {
+        _ballReference.GetComponent<AudioSource>().PlayOneShot(SFXClips[WhatToPlay]);
+    }
     //************************************ LOGIC *********************************************
     public override void OnBallCollision(Surface surface)
     {
@@ -257,6 +261,7 @@ public class RegularLogic : GameLogic
             switch (_currentHitSurface)
             {
                 case SurfaceType.Floor:
+                    PlaySFXOnBall(2);
                     //Debug.Log("The ball hit the floor");
 
                     switch (_lastHitSurface)
@@ -281,6 +286,7 @@ public class RegularLogic : GameLogic
                     break;
 
                 case SurfaceType.Field:
+                    PlaySFXOnBall(1);
                     //Debug.Log("The ball hit the field with number " + surface.FieldNum);
 
                     //If the ball hits the field of the player that has the turn, the point goes for the other player
@@ -305,12 +311,13 @@ public class RegularLogic : GameLogic
                     break;
 
                 case SurfaceType.Net:
+                    PlaySFXOnBall(1);
                     //Debug.Log("The ball hit the net");
                     break;
 
                 case SurfaceType.Paddle:
                     //Debug.Log("The ball hit a paddle");
-
+                    PlaySFXOnBall(0);
                     switch (_lastHitSurface)
                     {
                         case SurfaceType.Net:
