@@ -16,7 +16,7 @@ Click to see video
 ##### Trello Link: 
 https://trello.com/b/qEgZTovE/io2020-ping-pong-vr
 
-Samuel Balcells Valdivia
+- Samuel Balcells Valdivia
 
 - Massimo Boet Testa
 
