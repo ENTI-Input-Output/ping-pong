@@ -128,6 +128,12 @@ public class TargetLogic : GameLogic
         _currentHitSurface = _lastHitSurface = SurfaceType.None;
     }
 
+    public AudioClip[] SFXClips;
+    public void PlaySFXOnBall(int WhatToPlay)
+    {
+        _ballReference.GetComponent<AudioSource>().PlayOneShot(SFXClips[WhatToPlay]);
+    }
+
     public override void OnBallCollision(Surface surface)
     {
         if (!_ballReference.IsLocked && !_lookForOponent)
@@ -136,7 +142,18 @@ public class TargetLogic : GameLogic
 
             switch (_currentHitSurface)
             {
+                case SurfaceType.Paddle:
+                    PlaySFXOnBall(0);
+                    break;
+                case SurfaceType.Field:
+                    PlaySFXOnBall(2);
+                    break;
+
+                case SurfaceType.Net:
+                    PlaySFXOnBall(2);
+                    break;
                 case SurfaceType.Floor:
+                    PlaySFXOnBall(1);
                     //Debug.Log("The ball hit the floor");
 
                     switch (_lastHitSurface)

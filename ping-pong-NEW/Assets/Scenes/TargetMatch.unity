@@ -284,7 +284,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &464456460
 GameObject:
@@ -1735,6 +1735,10 @@ MonoBehaviour:
   Games: []
   MatchEnded: 0
   _targetSystem: {fileID: 0}
+  SFXClips:
+  - {fileID: 8300000, guid: d938e7e16fc59e04a93b20fe3b65c1e2, type: 3}
+  - {fileID: 8300000, guid: 8c9809b43c5b30d448952320d1d70f02, type: 3}
+  - {fileID: 8300000, guid: 4ee4492ad80515d418be53e5091a8e7d, type: 3}
 --- !u!1 &1764191937
 GameObject:
   m_ObjectHideFlags: 0
@@ -2259,7 +2263,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 40.633003, y: -25.056002, z: 6.926}
 --- !u!1001 &1791260930391039826
 PrefabInstance:
