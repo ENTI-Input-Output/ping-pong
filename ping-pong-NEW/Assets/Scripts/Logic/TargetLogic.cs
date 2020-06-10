@@ -165,8 +165,12 @@ public class TargetLogic : GameLogic
                     if (!_targetSystem)
                         _targetSystem = GameObject.Find("TargetSystem").GetComponent<TargetSystem>();
                     _targetSystem.RemoveTarget(surface.gameObject);
-                    _scoreBoard.UpdateLocalPlayerScore(surface.GetComponent<Target>().ScoreInc);
-                    Debug.Log("Ball hit a target");
+
+                    if (_turnID == PhotonNetwork.LocalPlayer.ActorNumber)
+                    {
+                        _scoreBoard.UpdateLocalPlayerScore(surface.GetComponent<Target>().ScoreInc);
+                        Debug.Log("Ball hit a target");
+                    }
                     break;
 
                 default:
